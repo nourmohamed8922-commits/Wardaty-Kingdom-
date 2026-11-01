@@ -45,7 +45,8 @@ label{display:block;margin-top:10px;opacity:.85;font-size:16px}
 #knob{position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(240,200,120,.55)}
 @media(pointer:coarse){#joy{display:block}}
 #chat{display:none;position:absolute;bottom:max(8px,env(safe-area-inset-bottom));inset-inline-start:8px;width:min(380px,calc(100% - 16px));height:42vh;flex-direction:column;padding:12px}
-#chat.on{display:flex}#msgs{flex:1;overflow:auto;font-size:16px}#msgs div{margin:4px 0;word-break:break-word}#msgs small{opacity:.55}
+#chat.on{display:flex}#msgs{flex:1;overflow:auto;font-size:16px}#msgs div{margin:4px 0;word-break:break-word}
+#msgs small{opacity:.55}
 #bd{position:absolute;top:-6px;inset-inline-end:-6px;background:#ff5d8f;color:#fff;border-radius:10px;font-size:12px;padding:0 6px;display:none}
 .ov{z-index:5}
 @media(prefers-reduced-motion:no-preference){.ttl h1{animation:gl 4s ease-in-out infinite alternate}@keyframes gl{to{text-shadow:0 0 46px rgba(240,200,120,.9)}}}
@@ -101,18 +102,34 @@ label{display:block;margin-top:10px;opacity:.85;font-size:16px}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 /* ============ 1. CONFIG ============ */
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDkwKS-KqL-LMiSOlrq3FSa60QSjM4eTe4",
-  authDomain: "wardaty-kingdom.firebaseapp.com",
-  databaseURL: "https://wardaty-kingdom-default-rtdb.firebaseio.com",
-  projectId: "wardaty-kingdom",
-  storageBucket: "wardaty-kingdom.firebasestorage.app",
-  messagingSenderId: "80317948776",
-  appId: "1:80317948776:web:d1cbb2b4af087432536cdd",
-  measurementId: "G-CYXC417M69"
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyDkwKS-KqL-LMiSOlrq3FSa60QSjM4eTe4",
+  authDomain:"wardaty-kingdom.firebaseapp.com",
+  databaseURL:"https://wardaty-kingdom-default-rtdb.firebaseio.com",
+  projectId:"wardaty-kingdom",
+  storageBucket:"wardaty-kingdom.firebasestorage.app",
+  messagingSenderId:"80317948776",
+  appId:"1:80317948776:web:d1cbb2b4af087432536cdd",
+  measurementId:"G-CYXC417M69"
 };
-/* ============ 2. TEXT (AR / EN) ============ */
+const $=i=>document.getElementById(i);
+const SV=()=>firebase.database.ServerValue.TIMESTAMP;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+let auth=null,db=null,OK=false;
+try{
+  if(FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.startsWith("PASTE_")){
+    firebase.initializeApp(FIREBASE_CONFIG);
+    auth=firebase.auth();
+    db=firebase.database();
+    OK=true;
+    console.log("Firebase initialized successfully");
+  }else{
+    console.warn("Add your existing Firebase Web API key in FIREBASE_CONFIG.apiKey");
+  }
+}catch(error){
+  console.error("Firebase initialization failed:",error);
+}
+  /* ============ 2. TEXT (AR / EN) ============ */
 let L=localStorage.lang||'ar',QL=+(localStorage.ql||1),SND=localStorage.snd!=='0';
 const T={ar:{title:'مملكة الأبد',sub:'قلبان، مملكة واحدة، وحكاية لا تنتهي.',start:'ابدأ رحلتك',cont:'تابع الرحلة',set:'الإعدادات',how:'طريقة اللعب',
 gate:'عبور البوابة',email:'البريد الإلكتروني',pass:'كلمة المرور (٦ أحرف على الأقل)',login:'دخول',reg:'حساب جديد',
@@ -123,7 +140,7 @@ portal:'رمز دعوة مملكتك',pdesc:'أرسله لشريكك ليعبر 
 whoami:'من أنت في الحكاية؟',king:'الملك',queen:'الملكة',yn:'اسمك',out:'الزي',hair:'الشعر',enter:'ادخل المملكة',taken:'هذا الدور اختاره شريكك.',pj:'شريكك',waiting:'بانتظار شريكك...',
 off:'غير متصل',on:'متصل',send:'إرسال',chat:'محادثة',letter:'الرسالة المضيئة',next:'التالي',ok:'حسنًا',wait:'بانتظار اختيار شريكك...',
 differ:'اختلفت إجابتاكما. تحدثا في المحادثة ثم اتفقا على إجابة واحدة:',read:'اقرأ',take:'خذ النجمة',altar:'المذبح',
-m0:'الرسالة المضيئة',o0:'اقرأ الرسالة قرب النافورة وأجيبا معًا.',m1:'النجوم الثلاث',o1:'اعثرا على النجوم الذهبية الثلاث ({n}/3).',
+m0:'الرسالة المضيئة',o0:'اقرآ الرسالة قرب النافورة وأجيبا معًا.',m1:'النجوم الثلاث',o1:'اعثرا على النجوم الذهبية الثلاث ({n}/3).',
 m2:'بوابة الشخصين',o2:'قف كلٌّ منكما على لوحه المضيء في الوقت نفسه ليُفتح الباب.',m3:'الوعد الأول',o3:'ادخلا الغرفة السرية وتبادلا الوعد عند المذبح.',m4:'اكتمل الفصل',o4:'استكشفا الحديقة بحرية.',
 ch:'الفصل ١: بداية الحكاية',endT:'اكتمل الفصل الأول',endS:'النجوم',endA:'أول وعد',endN:'الفصل ٢ «المدينة المنسية» لم يُبنَ بعد، لكن حكايتكما محفوظة.',
 lang:'اللغة',ql:'جودة الرسوم',lo:'منخفضة',me:'متوسطة',hi:'عالية',snd:'المؤثرات الصوتية',res:'متابعة',leave:'خروج من المملكة',
@@ -201,7 +218,7 @@ $('bPortalGo').onclick=()=>enter(S.pendingId);
 $('bJoin').onclick=async()=>{if(!OK)return $('jerr').textContent=t('noCfg');const code=$('jc').value.replace(/[^A-Za-z0-9]/g,'').toUpperCase();
 try{const s=await db.ref('codes/'+code).once('value');if(!s.exists())return $('jerr').textContent=t('e5');const id=s.val();
 if(S.last!==id){try{await db.ref().update({['rooms/'+id+'/members/'+S.uid]:true,['rooms/'+id+'/meta/guest']:S.uid})}catch(x){return $('jerr').textContent=t('e6')}}
-await db.ref('users/'+S.uid+'/room').set(id);S.last=id;enter(id)}catch(x){$('jerr').textContent=errMsg(x)}};
+    await db.ref('users/'+S.uid+'/room').set(id);S.last=id;enter(id)}catch(x){$('jerr').textContent=errMsg(x)}};
 const jq=new URLSearchParams(location.search).get('join');if(jq)$('jc').value=jq;
 
 /* ============ 5. ROOM: SETUP & SYNC ============ */
@@ -255,8 +272,7 @@ if(mine!=null)h+=`<p class="dim">${t('wait')}</p>`}}
 $('dlg').innerHTML=h}
 function showEnd(){const q=Q(),c=S.prog.choices||{};
 modal(`<h3>${t('endT')}</h3><p>${t('endS')}: 3/3<br>${t('endA')}<br><span class="gold">${q.q1.opts[resolve('q1')]}</span><br><span class="gold">${q.q2.opts[resolve('q2')]}</span></p><p class="dim">${t('endN')}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`);chime(784)}
-
-/* ============ 7. CHAT ============ */
+  /* ============ 7. CHAT ============ */
 function addMsg(m){const d=document.createElement('div'),b=document.createElement('b'),s=document.createElement('small');
 b.style.color=m.r=='king'?'#f0c878':'#5fe6ff';b.textContent=(m.n||'')+': ';s.textContent=' '+new Date(m.t||Date.now()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 d.append(b,document.createTextNode(m.m||''),s);$('msgs').appendChild(d);$('msgs').scrollTop=1e6;
