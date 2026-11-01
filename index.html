@@ -101,12 +101,17 @@ label{display:block;margin-top:10px;opacity:.85;font-size:16px}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 /* ============ 1. CONFIG ============ */
-const FIREBASE_CONFIG={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",databaseURL:"https://YOUR_PROJECT-default-rtdb.firebaseio.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
-const OK=!FIREBASE_CONFIG.apiKey.startsWith("YOUR_");
-let auth,db;if(OK){firebase.initializeApp(FIREBASE_CONFIG);auth=firebase.auth();db=firebase.database()}
-const $=i=>document.getElementById(i),SV=()=>firebase.database.ServerValue.TIMESTAMP;
-const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
-
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDkwKS-KqL-LMiSOlrq3FSa60QSjM4eTe4",
+  authDomain: "wardaty-kingdom.firebaseapp.com",
+  databaseURL: "https://wardaty-kingdom-default-rtdb.firebaseio.com",
+  projectId: "wardaty-kingdom",
+  storageBucket: "wardaty-kingdom.firebasestorage.app",
+  messagingSenderId: "80317948776",
+  appId: "1:80317948776:web:d1cbb2b4af087432536cdd",
+  measurementId: "G-CYXC417M69"
+};
 /* ============ 2. TEXT (AR / EN) ============ */
 let L=localStorage.lang||'ar',QL=+(localStorage.ql||1),SND=localStorage.snd!=='0';
 const T={ar:{title:'مملكة الأبد',sub:'قلبان، مملكة واحدة، وحكاية لا تنتهي.',start:'ابدأ رحلتك',cont:'تابع الرحلة',set:'الإعدادات',how:'طريقة اللعب',
