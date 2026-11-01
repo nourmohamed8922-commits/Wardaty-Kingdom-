@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Kingdom of Eternity — مملكة الأبد</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0b0b2e;--pur:#4b2e8f;--gold:#f0c878;--cy:#5fe6ff;--txt:#efeaff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--ink);color:var(--txt);font-family:Amiri,Cinzel,serif;font-size:18px}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.scr{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));overflow:auto;background:radial-gradient(ellipse at 50% 100%,rgba(75,46,143,.55),rgba(11,11,46,.82))}
+.scr.on{display:flex}
+#game{background:none;display:none;pointer-events:none;padding:0}#game.on{display:block}
+#game>*{pointer-events:auto}
+.glass{background:rgba(22,16,58,.66);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(240,200,120,.38);box-shadow:0 0 32px rgba(95,230,255,.14),inset 0 0 18px rgba(240,200,120,.06);border-radius:20px;padding:22px;width:min(440px,100%)}
+h1{font-size:clamp(46px,13vw,84px);margin:0;color:var(--gold);text-shadow:0 0 28px rgba(240,200,120,.55);font-weight:700;line-height:1.1}
+h2{font-family:Cinzel,serif;letter-spacing:.18em;font-weight:500;margin:6px 0 10px;font-size:clamp(15px,4.2vw,22px);color:var(--cy)}
+h3{margin:0 0 12px;color:var(--gold);font-size:22px}
+.ttl{text-align:center}.ttl p{opacity:.85;margin:0 0 26px}
+.col{display:flex;flex-direction:column;gap:10px;align-items:center}
+.btn,.opt{font:inherit;color:var(--ink);background:linear-gradient(180deg,#ffe3a6,#d9a94f);border:0;border-radius:14px;padding:11px 26px;min-width:210px;cursor:pointer;font-weight:700;box-shadow:0 0 18px rgba(240,200,120,.35);transition:transform .15s,box-shadow .15s}
+.btn:active,.opt:active{transform:scale(.97)}.btn:disabled{opacity:.4}
+.btn.sec{background:rgba(255,255,255,.07);color:var(--gold);border:1px solid rgba(240,200,120,.5);box-shadow:none}
+.opt{display:block;width:100%;margin:8px 0;background:rgba(255,255,255,.08);color:var(--txt);border:1px solid rgba(95,230,255,.45);box-shadow:none;text-align:start;font-weight:400}
+.opt.sel{background:rgba(95,230,255,.22);border-color:var(--cy)}
+input{font:inherit;width:100%;padding:11px 14px;margin:6px 0;border-radius:12px;border:1px solid rgba(240,200,120,.4);background:rgba(8,6,30,.7);color:var(--txt);outline:none}
+input:focus{border-color:var(--cy);box-shadow:0 0 12px rgba(95,230,255,.4)}
+label{display:block;margin-top:10px;opacity:.85;font-size:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tabs{display:flex;gap:8px;margin-bottom:10px}.tabs .btn{flex:1;min-width:0;padding:8px}
+.sw{width:34px;height:34px;border-radius:50%;border:2px solid transparent;cursor:pointer}.sw.sel{border-color:#fff;box-shadow:0 0 12px #fff}
+.err{color:#ff9db0;min-height:22px;font-size:16px}.dim{opacity:.7}.gold{color:var(--gold)}
+.code{font-family:Cinzel,serif;font-size:clamp(28px,9vw,40px);letter-spacing:.14em;color:var(--gold);text-align:center;margin:14px 0;text-shadow:0 0 20px rgba(240,200,120,.6);direction:ltr}
+.role{flex:1;min-width:140px;padding:14px;text-align:center;border-radius:14px;border:1px solid rgba(240,200,120,.4);background:rgba(255,255,255,.05);cursor:pointer;font:inherit;color:var(--txt)}
+.role.sel{border-color:var(--cy);background:rgba(95,230,255,.18)}.role:disabled{opacity:.35}
+#top{position:absolute;top:max(8px,env(safe-area-inset-top));inset-inline:10px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.pill{background:rgba(22,16,58,.66);backdrop-filter:blur(10px);border:1px solid rgba(240,200,120,.35);border-radius:14px;padding:6px 12px;font-size:16px}
+.ib{font:inherit;color:var(--gold);background:rgba(22,16,58,.7);border:1px solid rgba(240,200,120,.4);border-radius:12px;padding:6px 12px;cursor:pointer;position:relative}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#555;margin-inline-end:6px}.dot.on{background:#6dffb0;box-shadow:0 0 8px #6dffb0}
+#obj{position:absolute;top:calc(max(8px,env(safe-area-inset-top)) + 54px);inset-inline-start:10px;max-width:min(300px,70vw)}
+#dlg{display:none;position:absolute;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(600px,calc(100% - 20px));max-height:56vh;overflow:auto}
+#dlg b{color:var(--cy)}#dlg p{margin:8px 0}
+#act{display:none;position:absolute;bottom:max(24px,env(safe-area-inset-bottom));inset-inline-end:20px;width:84px;height:84px;border-radius:50%;align-items:center;justify-content:center;text-align:center;font-size:15px;line-height:1.1;padding:6px;cursor:pointer;color:var(--ink);background:radial-gradient(#fff3c9,#e2b25a);box-shadow:0 0 28px rgba(240,200,120,.8);border:0;font-family:inherit;font-weight:700}
+#joy{display:none;position:absolute;bottom:max(24px,env(safe-area-inset-bottom));left:22px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(240,200,120,.4);touch-action:none}
+#knob{position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(240,200,120,.55)}
+@media(pointer:coarse){#joy{display:block}}
+#chat{display:none;position:absolute;bottom:max(8px,env(safe-area-inset-bottom));inset-inline-start:8px;width:min(380px,calc(100% - 16px));height:42vh;flex-direction:column;padding:12px}
+#chat.on{display:flex}#msgs{flex:1;overflow:auto;font-size:16px}#msgs div{margin:4px 0;word-break:break-word}#msgs small{opacity:.55}
+#bd{position:absolute;top:-6px;inset-inline-end:-6px;background:#ff5d8f;color:#fff;border-radius:10px;font-size:12px;padding:0 6px;display:none}
+.ov{z-index:5}
+@media(prefers-reduced-motion:no-preference){.ttl h1{animation:gl 4s ease-in-out infinite alternate}@keyframes gl{to{text-shadow:0 0 46px rgba(240,200,120,.9)}}}
+</style></head><body>
+<canvas id="cv"></canvas>
+
+<section id="nogl" class="scr"><div class="glass"><h3>WebGL</h3><p id="nogltxt"></p></div></section>
+
+<section id="menu" class="scr on"><div class="ttl">
+<h1 data-i="title"></h1><h2>KINGDOM OF ETERNITY</h2><p data-i="sub"></p>
+<div class="col"><button class="btn" id="bStart" data-i="start"></button><button class="btn" id="bCont" data-i="cont" style="display:none"></button>
+<button class="btn sec" id="bSet" data-i="set"></button><button class="btn sec" id="bHow" data-i="how"></button></div></div></section>
+
+<section id="auth" class="scr"><div class="glass"><h3 data-i="gate"></h3>
+<div class="err" id="cfgw"></div>
+<label data-i="email"></label><input id="em" type="email" autocomplete="email">
+<label data-i="pass"></label><input id="pw" type="password" autocomplete="current-password">
+<div class="err" id="aerr"></div>
+<div class="row"><button class="btn" id="bLogin" data-i="login"></button><button class="btn sec" id="bReg" data-i="reg"></button></div></div></section>
+
+<section id="lobby" class="scr"><div class="col" style="width:100%">
+<div class="glass"><h3 data-i="cr"></h3><input id="kn" maxlength="24" data-p="kn">
+<label data-i="emb"></label><div class="row" id="embs"></div><label data-i="kcol"></label><div class="row" id="kcols"></div>
+<div class="err" id="cerr"></div><button class="btn" id="bCreate" data-i="found"></button></div>
+<div class="glass"><h3 data-i="jn"></h3><input id="jc" maxlength="9" data-p="jc" style="direction:ltr;text-transform:uppercase">
+<div class="err" id="jerr"></div><button class="btn sec" id="bJoin" data-i="go"></button></div></div></section>
+
+<section id="portal" class="scr"><div class="glass" style="text-align:center"><h3 data-i="portal"></h3><p class="dim" data-i="pdesc"></p>
+<div class="code" id="pc"></div><div class="row" style="justify-content:center"><button class="btn sec" id="bCopy" data-i="cp" style="min-width:140px"></button><button class="btn sec" id="bShare" data-i="sh" style="min-width:140px"></button></div>
+<p><button class="btn" id="bPortalGo" data-i="onward"></button></p></div></section>
+
+<section id="setup" class="scr"><div class="glass" style="width:min(520px,100%)"><h3 data-i="whoami"></h3>
+<div class="row"><button class="role" id="rKing"></button><button class="role" id="rQueen"></button></div>
+<label data-i="yn"></label><input id="nm" maxlength="16">
+<label data-i="out"></label><div class="row" id="outs"></div><label data-i="hair"></label><div class="row" id="hairs"></div>
+<p class="pill" id="partner" style="margin-top:14px"></p><div class="err" id="serr"></div>
+<button class="btn" id="bEnter" data-i="enter" disabled></button></div></section>
+
+<section id="game" class="scr">
+<div id="top"><div class="pill"><span id="kname"></span><br><span class="dim" id="pst"></span></div>
+<div class="row"><button class="ib" id="bChat"><span data-i="chat"></span><span id="bd"></span></button><button class="ib" id="bPause">☰</button></div></div>
+<div id="obj" class="pill"></div>
+<div id="joy"><div id="knob"></div></div><button id="act"></button>
+<div id="dlg" class="glass"></div>
+<div id="chat" class="glass"><div id="msgs"></div><div class="row" style="flex-wrap:nowrap"><input id="ci" maxlength="300"><button class="ib" id="bSend" data-i="send"></button></div></div>
+</section>
+
+<section id="md" class="scr ov"><div class="glass" id="mdc"></div></section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+/* ============ 1. CONFIG ============ */
+const FIREBASE_CONFIG={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",databaseURL:"https://YOUR_PROJECT-default-rtdb.firebaseio.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
+const OK=!FIREBASE_CONFIG.apiKey.startsWith("YOUR_");
+let auth,db;if(OK){firebase.initializeApp(FIREBASE_CONFIG);auth=firebase.auth();db=firebase.database()}
+const $=i=>document.getElementById(i),SV=()=>firebase.database.ServerValue.TIMESTAMP;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+
+/* ============ 2. TEXT (AR / EN) ============ */
+let L=localStorage.lang||'ar',QL=+(localStorage.ql||1),SND=localStorage.snd!=='0';
+const T={ar:{title:'مملكة الأبد',sub:'قلبان، مملكة واحدة، وحكاية لا تنتهي.',start:'ابدأ رحلتك',cont:'تابع الرحلة',set:'الإعدادات',how:'طريقة اللعب',
+gate:'عبور البوابة',email:'البريد الإلكتروني',pass:'كلمة المرور (٦ أحرف على الأقل)',login:'دخول',reg:'حساب جديد',
+noCfg:'Firebase غير مُعدّ: عدّل FIREBASE_CONFIG داخل index.html (راجع README).',
+e0:'حدث خطأ، حاول مرة أخرى.',e1:'هذا البريد مسجّل من قبل.',e2:'البريد أو كلمة المرور غير صحيحة.',e3:'كلمة المرور ضعيفة.',e4:'البريد غير صالح.',e5:'رمز الدعوة غير موجود.',e6:'المملكة مكتملة، فيها لاعبان بالفعل.',e7:'اكتب اسم المملكة.',
+cr:'أسّس مملكتك',kn:'اسم المملكة',emb:'الشعار',kcol:'لون المملكة',found:'أسّس المملكة',jn:'انضم إلى مملكة',jc:'رمز الدعوة',go:'انضم',
+portal:'رمز دعوة مملكتك',pdesc:'أرسله لشريكك ليعبر البوابة.',cp:'نسخ الرمز',sh:'مشاركة الرابط',copied:'تم النسخ',onward:'تابع',
+whoami:'من أنت في الحكاية؟',king:'الملك',queen:'الملكة',yn:'اسمك',out:'الزي',hair:'الشعر',enter:'ادخل المملكة',taken:'هذا الدور اختاره شريكك.',pj:'شريكك',waiting:'بانتظار شريكك...',
+off:'غير متصل',on:'متصل',send:'إرسال',chat:'محادثة',letter:'الرسالة المضيئة',next:'التالي',ok:'حسنًا',wait:'بانتظار اختيار شريكك...',
+differ:'اختلفت إجابتاكما. تحدثا في المحادثة ثم اتفقا على إجابة واحدة:',read:'اقرأ',take:'خذ النجمة',altar:'المذبح',
+m0:'الرسالة المضيئة',o0:'اقرأ الرسالة قرب النافورة وأجيبا معًا.',m1:'النجوم الثلاث',o1:'اعثرا على النجوم الذهبية الثلاث ({n}/3).',
+m2:'بوابة الشخصين',o2:'قف كلٌّ منكما على لوحه المضيء في الوقت نفسه ليُفتح الباب.',m3:'الوعد الأول',o3:'ادخلا الغرفة السرية وتبادلا الوعد عند المذبح.',m4:'اكتمل الفصل',o4:'استكشفا الحديقة بحرية.',
+ch:'الفصل ١: بداية الحكاية',endT:'اكتمل الفصل الأول',endS:'النجوم',endA:'أول وعد',endN:'الفصل ٢ «المدينة المنسية» لم يُبنَ بعد، لكن حكايتكما محفوظة.',
+lang:'اللغة',ql:'جودة الرسوم',lo:'منخفضة',me:'متوسطة',hi:'عالية',snd:'المؤثرات الصوتية',res:'متابعة',leave:'خروج من المملكة',
+howT:'WASD للحركة، السحب بالفأرة أو اللمس لتدوير الكاميرا، مسافة للقفز، E للتفاعل. على الهاتف: عصا التحكم وزر التفاعل. بعض الألغاز لا تُحل إلا بكما معًا.',
+q:{q1:{intro:[['letter','«في مكانٍ ما خلف النجوم، يوجد من ينتظر أن يكتشف معك حكاية.»'],['king','ثلاث سنين وأنا أمشي في هذه الحدائق وحدي، ولم يخطر ببالي أن نجمة ستسقط لتعرّفني عليكِ.'],['queen','وأنا لم أكن أبحث عن مملكة. كنت أتبع الضوء فحسب، وها قد وصلت حيث ينتهي.']],
+who:'king',ask:'قل لي بصدق: ما الذي يجعل المملكة جميلة حقًا؟',opts:['الناس الذين يعيشون فيها','أماكنها الجميلة','الذكريات التي نصنعها معًا'],
+after:['ربما لهذا تبدو الحدائق ناقصة بلا ضحكات. سنملؤها.','إذن لنبدأ بالنجوم الثلاث؛ فقد تبعثرت في أجمل الزوايا.','فلنصنع أول ذكرى الآن: ثلاث نجوم ضائعة ويدان تبحثان.']},
+q2:{intro:[['letter','على المذبح نُقشت عبارة: «الوعد الأول يُقال بصوتين».']],who:'queen',ask:'قبل أن نفتح الباب الأخير... أي وعدٍ تقطعه لي؟',
+opts:['أن أصدُقك القول دائمًا','ألّا تمشي طريقًا وحدك','أن أحفظ كل ذكرى نصنعها'],after:['وأنا أعدك أن أُصغي حتى حين تكون الحقيقة صعبة.','وأنا أعدك أن أبقى حين يضيق الطريق.','وأنا سأكتبها كلها في كتاب لا ينتهي.']}}},
+en:{title:'Kingdom of Eternity',sub:'Two hearts. One kingdom. An endless story.',start:'Start Your Journey',cont:'Continue Journey',set:'Settings',how:'How to Play',
+gate:'Cross the Gate',email:'Email',pass:'Password (6+ characters)',login:'Log in',reg:'Register',
+noCfg:'Firebase is not configured: edit FIREBASE_CONFIG in index.html (see README).',
+e0:'Something went wrong. Try again.',e1:'That email is already registered.',e2:'Wrong email or password.',e3:'Password is too weak.',e4:'Invalid email.',e5:'Invitation code not found.',e6:'This kingdom already has two players.',e7:'Enter a kingdom name.',
+cr:'Found Your Kingdom',kn:'Kingdom name',emb:'Emblem',kcol:'Kingdom color',found:'Found Kingdom',jn:'Join a Kingdom',jc:'Invitation code',go:'Join',
+portal:'Your Invitation Code',pdesc:'Send it to your partner so they can cross the gate.',cp:'Copy code',sh:'Share link',copied:'Copied',onward:'Continue',
+whoami:'Who are you in the story?',king:'The King',queen:'The Queen',yn:'Your name',out:'Outfit',hair:'Hair',enter:'Enter the Kingdom',taken:'Your partner already chose this role.',pj:'Partner',waiting:'Waiting for your partner...',
+off:'offline',on:'online',send:'Send',chat:'Chat',letter:'The Glowing Letter',next:'Next',ok:'OK',wait:'Waiting for your partner to choose...',
+differ:'You chose differently. Talk it over in chat, then agree on one answer:',read:'Read',take:'Take star',altar:'Altar',
+m0:'The Glowing Letter',o0:'Read the letter by the fountain and answer together.',m1:'Three Stars',o1:'Find the three golden stars ({n}/3).',
+m2:'The Two-Person Gate',o2:'Each of you stand on your glowing plate at the same time to open the gate.',m3:'The First Promise',o3:'Enter the secret room and exchange your promise at the altar.',m4:'Chapter complete',o4:'Explore the garden freely.',
+ch:'Chapter 1: The First Meeting',endT:'Chapter One Complete',endS:'Stars',endA:'First Promise',endN:'Chapter 2, The Forgotten City, is not built yet, but your story is saved.',
+lang:'Language',ql:'Graphics quality',lo:'Low',me:'Medium',hi:'High',snd:'Sound effects',res:'Resume',leave:'Leave kingdom',
+howT:'WASD to move, drag mouse or touch to rotate the camera, Space to jump, E to interact. On phones: joystick and interact button. Some puzzles can only be solved together.',
+q:{q1:{intro:[['letter','"Somewhere beyond the stars, someone is waiting to discover a story with you."'],['king','Three years I walked these gardens alone, and never imagined a star would fall just to introduce us.'],['queen','I was not looking for a kingdom. I only followed the light, and here it ends.']],
+who:'king',ask:'Tell me honestly: what makes a kingdom truly beautiful?',opts:['The people living in it','Its beautiful places','The memories we create together'],
+after:['Maybe that is why these gardens feel empty without laughter. We will fill them.','Then let us begin with the three stars, scattered through its loveliest corners.','Then let us make the first memory now: three lost stars and two hands searching.']},
+q2:{intro:[['letter','Carved on the altar: "The first promise is spoken by two voices."']],who:'queen',ask:'Before we open the last door... what do you promise me?',
+opts:['To always tell you the truth','That you never walk a road alone','To keep every memory we make'],after:['And I promise to listen, even when the truth is hard.','And I promise to stay when the road narrows.','And I will write them all in a book that never ends.']}}}};
+const t=k=>T[L][k]||k,Q=()=>T[L].q;
+function i18n(){document.documentElement.lang=L;document.documentElement.dir=L=='ar'?'rtl':'ltr';
+document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t(e.dataset.p));
+$('rKing').textContent=t('king');$('rQueen').textContent=t('queen');$('nogltxt').textContent=L=='ar'?'جهازك لا يدعم WebGL. جرّب متصفحًا حديثًا.':'Your device does not support WebGL. Try a modern browser.'}
+
+/* ============ 3. STATE & HELPERS ============ */
+const S={players:{},prog:{},pos:{},role:null,started:false};
+let D=null,ds=0,AC,near=null,unread=0,chatOn=false;
+const resolve=q=>{const c=((S.prog.choices||{})[q])||{},a=c.ans||{},f=c.fin||{};
+if(a.king!=null&&a.king===a.queen)return a.king;if(f.king!=null&&f.king===f.queen)return f.king;return null};
+const cnt=()=>Object.keys(S.prog.stars||{}).length;
+const mission=()=>resolve('q1')==null?0:cnt()<3?1:!S.prog.gate?2:resolve('q2')==null?3:4;
+const other=()=>S.role=='king'?'queen':'king';
+const spk=r=>r=='letter'?esc(t('letter')):esc((S.players[r]&&S.players[r].name)||t(r));
+function show(id){document.querySelectorAll('.scr').forEach(e=>{if(e.id!='md')e.classList.toggle('on',e.id==id)})}
+function modal(h){$('mdc').innerHTML=h;$('md').classList.add('on')}
+const closeM=()=>$('md').classList.remove('on');
+function chime(f){if(!SND)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.setValueAtTime(.14,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.9);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.9)}catch(e){}}
+function swatches(el,cols,cb,sel){el.innerHTML='';cols.forEach((c,i)=>{const d=document.createElement('div');d.className='sw'+(i==sel?' sel':'');d.style.background=c;
+d.onclick=()=>{[...el.children].forEach(x=>x.classList.remove('sel'));d.classList.add('sel');cb(c,i)};el.appendChild(d)})}
+function errMsg(x){const c=x&&x.code||'';return t(/in-use/.test(c)?'e1':/credential|password|user-not/.test(c)&&!/weak/.test(c)?'e2':/weak/.test(c)?'e3':/email/.test(c)?'e4':'e0')}
+
+/* ============ 4. MENU / AUTH / LOBBY ============ */
+const OUT=['#7b4bd6','#1ea7c5','#c8445a','#d4af37'],HAIR=['#2b1b12','#7a4a2a','#e8d3a2','#1a1a2e'],EMB=['☾','✦','♛','❖'];
+const draft={emb:EMB[0],col:OUT[0],out:OUT[0],hair:HAIR[0]};
+$('bStart').onclick=()=>{chime(520);if(S.uid)show('lobby');else{$('cfgw').textContent=OK?'':t('noCfg');show('auth')}};
+$('bCont').onclick=()=>enter(S.last);
+$('bSet').onclick=settings;$('bHow').onclick=()=>modal(`<h3>${t('how')}</h3><p>${t('howT')}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`);
+$('bLogin').onclick=()=>doAuth(0);$('bReg').onclick=()=>doAuth(1);
+async function doAuth(reg){if(!OK)return $('aerr').textContent=t('noCfg');const e=$('em').value.trim(),p=$('pw').value;
+try{await(reg?auth.createUserWithEmailAndPassword(e,p):auth.signInWithEmailAndPassword(e,p));$('aerr').textContent=''}catch(x){$('aerr').textContent=errMsg(x)}}
+if(OK)auth.onAuthStateChanged(async u=>{S.uid=u?u.uid:null;$('bCont').style.display='none';
+if(u){const s=await db.ref('users/'+u.uid+'/room').once('value');S.last=s.val();if(S.last)$('bCont').style.display='';
+if($('auth').classList.contains('on'))show('lobby')}});
+swatches($('embs'),EMB.map(()=>'#2a2060'),(c,i)=>draft.emb=EMB[i],0);[...$('embs').children].forEach((d,i)=>{d.textContent=EMB[i];d.style.cssText+=';color:#f0c878;text-align:center;line-height:30px;font-size:20px'});
+swatches($('kcols'),OUT,c=>draft.col=c,0);
+const gen=()=>{const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789',r=crypto.getRandomValues(new Uint8Array(8));return[...r].map(n=>a[n%a.length]).join('')};
+$('bCreate').onclick=async()=>{const name=$('kn').value.trim();if(!OK)return $('cerr').textContent=t('noCfg');if(!name)return $('cerr').textContent=t('e7');
+try{const code=gen(),ref=db.ref('rooms').push(),id=ref.key;
+await ref.set({meta:{name,emblem:draft.emb,color:draft.col,code,owner:S.uid,createdAt:SV()},members:{[S.uid]:true},progress:{chapter:1,updatedAt:SV()}});
+await db.ref('codes/'+code).set(id);await db.ref('users/'+S.uid+'/room').set(id);S.last=id;S.pendingId=id;
+$('pc').textContent=code.slice(0,4)+' · '+code.slice(4);S.code=code;show('portal')}catch(x){$('cerr').textContent=errMsg(x)}};
+const link=()=>location.origin+location.pathname+'?join='+S.code;
+$('bCopy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(S.code);$('bCopy').textContent=t('copied')};
+$('bShare').onclick=()=>{const d={title:'Kingdom of Eternity',text:t('portal')+': '+S.code,url:link()};navigator.share?navigator.share(d).catch(()=>{}):(navigator.clipboard&&navigator.clipboard.writeText(link()),$('bShare').textContent=t('copied'))};
+$('bPortalGo').onclick=()=>enter(S.pendingId);
+$('bJoin').onclick=async()=>{if(!OK)return $('jerr').textContent=t('noCfg');const code=$('jc').value.replace(/[^A-Za-z0-9]/g,'').toUpperCase();
+try{const s=await db.ref('codes/'+code).once('value');if(!s.exists())return $('jerr').textContent=t('e5');const id=s.val();
+if(S.last!==id){try{await db.ref().update({['rooms/'+id+'/members/'+S.uid]:true,['rooms/'+id+'/meta/guest']:S.uid})}catch(x){return $('jerr').textContent=t('e6')}}
+await db.ref('users/'+S.uid+'/room').set(id);S.last=id;enter(id)}catch(x){$('jerr').textContent=errMsg(x)}};
+const jq=new URLSearchParams(location.search).get('join');if(jq)$('jc').value=jq;
+
+/* ============ 5. ROOM: SETUP & SYNC ============ */
+function enter(id){S.room=id;S.ref=db.ref('rooms/'+id);
+S.ref.child('meta').once('value').then(s=>{S.meta=s.val()||{};$('kname').textContent=(S.meta.emblem||'')+' '+(S.meta.name||'')});
+S.ref.child('players').on('value',s=>{S.players=s.val()||{};
+if(!S.started){if(S.first===undefined){S.first=1;const me=['king','queen'].find(r=>S.players[r]&&S.players[r].uid==S.uid);if(me){S.role=me;return startGame()}show('setup');
+swatches($('outs'),OUT,c=>draft.out=c,0);swatches($('hairs'),HAIR,c=>draft.hair=c,0)}renderSetup()}else onPlayers()});
+S.ref.child('progress').on('value',s=>{S.prog=s.val()||{};if(S.started)onProg()});
+S.ref.child('pos').on('value',s=>S.pos=s.val()||{});
+S.ref.child('chat').limitToLast(60).on('child_added',s=>addMsg(s.val()))}
+function renderSetup(){const p=S.players,mine=['king','queen'].find(r=>p[r]&&p[r].uid==S.uid);
+['king','queen'].forEach(r=>{const b=$(r=='king'?'rKing':'rQueen'),o=p[r]&&p[r].uid!=S.uid;b.disabled=!!o;b.classList.toggle('sel',mine==r);b.textContent=t(r)+(o?' · '+(p[r].name||''):'')});
+const o=p[mine?(mine=='king'?'queen':'king'):'king'],pr=mine?p[mine=='king'?'queen':'king']:null;
+$('partner').textContent=pr?`${t('pj')}: ${pr.name||'...'} (${t(mine=='king'?'queen':'king')})`:t('waiting');
+$('bEnter').disabled=!mine}
+async function claim(role){const name=$('nm').value.trim()||t(role),other=role=='king'?'queen':'king';
+const r=await S.ref.child('players/'+role).transaction(c=>c&&c.uid!=S.uid?undefined:{uid:S.uid,name,out:draft.out,hair:draft.hair,online:true});
+if(!r.committed)return $('serr').textContent=t('taken');$('serr').textContent='';S.role=role;
+if(S.players[other]&&S.players[other].uid==S.uid)S.ref.child('players/'+other).remove()}
+$('rKing').onclick=()=>claim('king');$('rQueen').onclick=()=>claim('queen');
+['nm'].forEach(i=>$(i).onchange=()=>{if(S.role)claim(S.role)});
+document.getElementById('outs').addEventListener('click',()=>S.role&&claim(S.role));document.getElementById('hairs').addEventListener('click',()=>S.role&&claim(S.role));
+$('bEnter').onclick=()=>{if(S.role)startGame()};
+function startGame(){S.started=true;show('game');if(!S.role)S.role=['king','queen'].find(r=>S.players[r]&&S.players[r].uid==S.uid);
+S.ref.child('pos/'+S.role).once('value').then(s=>{const p=s.val();if(p){P.x=p.x;P.z=p.z}});
+db.ref('.info/connected').on('value',s=>{if(s.val()){const r=S.ref.child('players/'+S.role+'/online');r.onDisconnect().set(false);r.set(true)}});
+$('obj').style.display='';onPlayers();onProg();chime(440)}
+function onPlayers(){const me=S.players[S.role],ot=S.players[other()];if(me)setAv('me',S.role,me);if(ot)setAv('ot',other(),ot);
+$('pst').innerHTML=ot?`<span class="dot ${ot.online?'on':''}"></span>${esc(ot.name)} · ${t(ot.online?'on':'off')}`:t('waiting');if(AV.ot)AV.ot.traverse(o=>{if(o.material&&!o.isSprite)o.material.opacity=ot&&ot.online?1:.35,o.material.transparent=true})}
+
+/* ============ 6. PROGRESS, MISSIONS, DIALOGUE ============ */
+function onProg(){const p=S.prog,m=mission();applyWorld();
+$('obj').innerHTML=`<b class="gold">${t('ch')}</b><br><b>${t('m'+m)}</b><br>${t('o'+m).replace('{n}',cnt())}`;
+if(p.gate!==true&&p.plates&&p.plates.king&&p.plates.queen&&cnt()==3)S.ref.child('progress').update({gate:true,'inventory/key':true,updatedAt:SV()});
+['q1','q2'].forEach(q=>{const f=((p.choices||{})[q]||{}).fin;if(f&&f.king!=null&&f.queen!=null&&f.king!==f.queen&&S.role=='king')S.ref.child('progress/choices/'+q+'/fin').remove()});
+if(m==4&&!p.chapterDone)S.ref.child('progress').update({chapterDone:true,'achievements/first_promise':true,updatedAt:SV()});
+if(m==4&&!S.endShown){S.endShown=1;showEnd()}
+if(D)renderQ()}
+function openD(q){D=q;ds=0;$('dlg').style.display='block';renderQ()}
+function closeD(){D=null;$('dlg').style.display='none'}
+function pick(i,fin){S.ref.child('progress/choices/'+D+'/'+(fin?'fin':'ans')+'/'+S.role).set(i);S.ref.child('progress/updatedAt').set(SV());chime(520+i*80)}
+function renderQ(){const q=Q()[D],c=((S.prog.choices||{})[D])||{},a=c.ans||{},f=c.fin||{},r=resolve(D);let h='';
+if(ds<q.intro.length){const[s,x]=q.intro[ds];h=`<b>${spk(s)}</b><p>${x}</p><button class="btn" onclick="ds++;renderQ()">${t('next')}</button>`}
+else{h=`<b>${spk(q.who)}</b><p>${q.ask}</p>`;
+if(r!=null)h+=`<p class="gold">${q.opts[r]}</p><p>${q.after[r]}</p><button class="btn" onclick="closeD()">${t('ok')}</button>`;
+else{const both=a.king!=null&&a.queen!=null,mine=(both?f:a)[S.role];
+if(both)h+=`<p class="dim">${t('differ')}</p><p>${spk('king')}: ${q.opts[a.king]}<br>${spk('queen')}: ${q.opts[a.queen]}</p>`;
+q.opts.forEach((o,i)=>h+=`<button class="opt${mine===i?' sel':''}" onclick="pick(${i},${both?1:0})">${o}</button>`);
+if(mine!=null)h+=`<p class="dim">${t('wait')}</p>`}}
+$('dlg').innerHTML=h}
+function showEnd(){const q=Q(),c=S.prog.choices||{};
+modal(`<h3>${t('endT')}</h3><p>${t('endS')}: 3/3<br>${t('endA')}<br><span class="gold">${q.q1.opts[resolve('q1')]}</span><br><span class="gold">${q.q2.opts[resolve('q2')]}</span></p><p class="dim">${t('endN')}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`);chime(784)}
+
+/* ============ 7. CHAT ============ */
+function addMsg(m){const d=document.createElement('div'),b=document.createElement('b'),s=document.createElement('small');
+b.style.color=m.r=='king'?'#f0c878':'#5fe6ff';b.textContent=(m.n||'')+': ';s.textContent=' '+new Date(m.t||Date.now()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+d.append(b,document.createTextNode(m.m||''),s);$('msgs').appendChild(d);$('msgs').scrollTop=1e6;
+if(!chatOn&&m.r!=S.role&&S.started){unread++;$('bd').textContent=unread;$('bd').style.display='block'}}
+$('bChat').onclick=()=>{chatOn=!chatOn;$('chat').classList.toggle('on',chatOn);unread=0;$('bd').style.display='none'};
+function sendMsg(){const m=$('ci').value.trim();if(!m||!S.role)return;S.ref.child('chat').push({r:S.role,n:(S.players[S.role]||{}).name||'',m,t:SV()});$('ci').value=''}
+$('bSend').onclick=sendMsg;$('ci').onkeydown=e=>{if(e.key=='Enter')sendMsg()};
+
+/* ============ 8. SETTINGS ============ */
+function settings(){const b=(on,l,f)=>`<button class="btn${on?'':' sec'}" style="min-width:90px;padding:8px" onclick="${f}">${l}</button>`;
+modal(`<h3>${t('set')}</h3><label>${t('lang')}</label><div class="row">${b(L=='ar','العربية',"L='ar';localStorage.lang='ar';i18n();settings()")}${b(L=='en','English',"L='en';localStorage.lang='en';i18n();settings()")}</div>
+<label>${t('ql')}</label><div class="row">${[0,1,2].map(i=>b(QL==i,t(['lo','me','hi'][i]),`localStorage.ql=${i};location.reload()`)).join('')}</div>
+<label>${t('snd')}</label><div class="row">${b(SND,'ON',"SND=true;localStorage.snd=1;settings()")}${b(!SND,'OFF',"SND=false;localStorage.snd=0;settings()")}</div>
+<p><button class="btn" onclick="closeM()">${t('res')}</button></p>${OK&&S.uid?`<button class="btn sec" onclick="auth.signOut().then(()=>location.href=location.pathname)">${t('leave')}</button>`:''}`)}
+$('bPause').onclick=settings;
+
+/* ============ 9. 3D WORLD ============ */
+const P={x:0,y:0,z:10,vy:0,ry:0},AV={me:null,ot:null},W={stars:[],plates:[],gate:0};
+const keys={};let cy=0,cp=.5,jx=0,jz=0,webgl=true,R,sc,cam;
+const CC=[],CB=[],IT=[{k:'letter',x:-6,z:5},{k:'star',i:0,x:-20,z:-8},{k:'star',i:1,x:18,z:-14},{k:'star',i:2,x:-16,z:20},{k:'altar',x:0,z:-26}],PL={king:[-7,-9],queen:[7,-9]};
+try{R=new THREE.WebGLRenderer({canvas:$('cv'),antialias:QL>0});}catch(e){webgl=false;$('nogl').classList.add('on')}
+function build(){const dpr=devicePixelRatio||1;R.setPixelRatio([1,Math.min(dpr,1.5),Math.min(dpr,2)][QL]);
+sc=new THREE.Scene();sc.background=new THREE.Color(0x0b0b2e);sc.fog=new THREE.Fog(0x14123f,30,120);cam=new THREE.PerspectiveCamera(60,1,.1,400);
+sc.add(new THREE.HemisphereLight(0x9aa4ff,0x2a2050,.85));const dl=new THREE.DirectionalLight(0xbfc8ff,.8);dl.position.set(-30,50,-20);sc.add(dl);
+const M=(c,e)=>new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:e||0,roughness:.85});
+const add=(m,x,y,z)=>{m.position.set(x,y,z);sc.add(m);return m};
+const bx=(w,h,d,c,x,y,z,e)=>add(new THREE.Mesh(new THREE.BoxGeometry(w,h,d),M(c,e)),x,y,z);
+const cyl=(r1,r2,h,c,x,y,z,e,s)=>add(new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,s||12),M(c,e)),x,y,z);
+const wall=(a,b,c,d,h,col)=>{bx(b-a,h,d-c,col,(a+b)/2,h/2,(c+d)/2);CB.push({a,b,c,d,on:1})};
+add(new THREE.Mesh(new THREE.CircleGeometry(60,40),M(0x1e3d3a)),0,0,0).rotation.x=-Math.PI/2;
+const pth=add(new THREE.Mesh(new THREE.PlaneGeometry(5,50),M(0x6a5a92)),0,.02,-8);pth.rotation.x=-Math.PI/2;
+/* castle */
+bx(22,14,8,0x5b4b8a,0,7,-50);[-13,13].forEach(x=>{cyl(3,3,22,0x6a5aa0,x,11,-50);cyl(0,4,7,0xd4af37,x,25,-50,.2,8)});
+for(let i=-8;i<=8;i+=4)bx(1.2,2.4,.3,0xffe08a,i,8,-45.9,1);
+/* fountain, hedge room, gate, altar */
+cyl(2.4,2.6,.9,0x8c86b8,0,.45,-2);cyl(2,2,.95,0x5fe6ff,0,.5,-2,.7);CC.push([0,-2,2.7]);
+wall(-9,-7,-31,-18,4,0x1f6b45);wall(7,9,-31,-18,4,0x1f6b45);wall(-9,9,-31,-30,4,0x1f6b45);wall(-9,-4,-18.4,-17.6,4,0x1f6b45);wall(4,9,-18.4,-17.6,4,0x1f6b45);
+W.gb={a:-4,b:4,c:-18.4,d:-17.6,on:1};CB.push(W.gb);
+W.gl=bx(3.9,4,.4,0xd4af37,-2,2,-18,.25);W.gr=bx(3.9,4,.4,0xd4af37,2,2,-18,.25);
+cyl(.8,1,1.2,0x9c93c9,0,.6,-26);W.altar=add(new THREE.Mesh(new THREE.SphereGeometry(.4,16,12),M(0x5fe6ff,.9)),0,1.7,-26);
+/* plates */
+['king','queen'].forEach(r=>{const m=cyl(1.5,1.5,.12,r=='king'?0xf0c878:0x5fe6ff,PL[r][0],.06,PL[r][1],.3,24);m.role=r;W.plates.push(m)});
+/* interactables */
+W.letter=add(new THREE.Mesh(new THREE.PlaneGeometry(1.1,.8),new THREE.MeshBasicMaterial({color:0xfff0b8,side:2})),-6,1.8,5);
+IT.filter(i=>i.k=='star').forEach(i=>{const s=add(new THREE.Mesh(new THREE.OctahedronGeometry(.6),M(0xffd34f,1)),i.x,1.8,i.z);s.add(new THREE.PointLight(0xffd34f,.8,9));W.stars[i.i]=s});
+/* trees (seeded so both clients share colliders) */
+let sd=7;const rnd=()=>(sd=sd*16807%2147483647)/2147483647;
+const nT=[16,30,46][QL];for(let n=0;n<nT;n++){const a=rnd()*6.283,r=12+rnd()*18,x=Math.cos(a)*r,z=Math.sin(a)*r-4;
+if(z<-8&&Math.abs(x)<13||z<-31||IT.some(i=>Math.hypot(x-i.x,z-i.z)<5))continue;
+cyl(.3,.45,2,0x4a3320,x,1,z,0,6);cyl(0,2,3.4,0x1f5a4a,x,3.4,z,.08,7);cyl(0,1.5,2.6,0x2a6b55,x,5,z,.08,7);CC.push([x,z,.8])}
+/* flowers */
+const nF=[40,90,160][QL],fl=new THREE.InstancedMesh(new THREE.SphereGeometry(.18,6,5),new THREE.MeshBasicMaterial(),nF),mx=new THREE.Matrix4(),cl=['#ff8fd1','#5fe6ff','#f0c878','#b79bff'];
+for(let n=0;n<nF;n++){mx.setPosition((rnd()-.5)*60,.2,(rnd()-.5)*60-4);fl.setMatrixAt(n,mx);fl.setColorAt(n,new THREE.Color(cl[n%4]))}sc.add(fl);
+/* sky, moon, fireflies */
+const mk=(n,rad,c,sz)=>{const g=new THREE.BufferGeometry(),a=new Float32Array(n*3);for(let i=0;i<n;i++){const u=rnd()*6.283,v=Math.acos(rnd()*1.2-.2);a[i*3]=rad*Math.sin(v)*Math.cos(u);a[i*3+1]=Math.abs(rad*Math.cos(v));a[i*3+2]=rad*Math.sin(v)*Math.sin(u)}
+g.setAttribute('position',new THREE.BufferAttribute(a,3));return new THREE.Points(g,new THREE.PointsMaterial({color:c,size:sz,sizeAttenuation:false,fog:false}))};
+sc.add(mk([400,800,1400][QL],160,0xffffff,1.6));W.ff=mk([20,40,70][QL],1,0xffe08a,3);W.ff.scale.set(1,1,1);
+const ffp=W.ff.geometry.attributes.position;for(let i=0;i<ffp.count;i++)ffp.setXYZ(i,(rnd()-.5)*50,1+rnd()*3,(rnd()-.5)*50-4);sc.add(W.ff);
+add(new THREE.Mesh(new THREE.SphereGeometry(7,20,16),new THREE.MeshBasicMaterial({color:0xfff2c9,fog:false})),-70,70,-120);
+const pl=new THREE.PointLight(0x5fe6ff,1.2,22);pl.position.set(0,3,-2);sc.add(pl);
+resize()}
+function resize(){if(!webgl)return;R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()}
+addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,200));
+function label(txt){const c=document.createElement('canvas');c.width=256;c.height=64;const g=c.getContext('2d');g.font='bold 30px Amiri,serif';g.textAlign='center';g.fillStyle='#fff';g.strokeStyle='#0b0b2e';g.lineWidth=6;g.strokeText(txt,128,42);g.fillText(txt,128,42);
+const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));s.scale.set(2.6,.65,1);s.position.y=2.6;return s}
+function setAv(w,role,p){if(!webgl||!sc)return;const key=[p.name,p.out,p.hair].join('|');if(AV[w]&&AV[w].key==key)return;
+if(AV[w])sc.remove(AV[w]);const M=c=>new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.18}),g=new THREE.Group();
+const b=new THREE.Mesh(new THREE.CylinderGeometry(.35,.55,1.3,12),M(p.out||'#7b4bd6'));b.position.y=.65;
+const h=new THREE.Mesh(new THREE.SphereGeometry(.38,14,12),M('#f1c9a5'));h.position.y=1.55;
+const hr=new THREE.Mesh(new THREE.SphereGeometry(.42,14,12,0,6.3,0,1.9),M(p.hair||'#2b1b12'));hr.position.y=1.6;
+const cr=new THREE.Mesh(role=='king'?new THREE.CylinderGeometry(.3,.38,.25,6):new THREE.TorusGeometry(.3,.05,6,16),new THREE.MeshStandardMaterial({color:0xffd36b,emissive:0xffd36b,emissiveIntensity:.7}));cr.position.y=2;if(role!='king')cr.rotation.x=1.5;
+g.add(b,h,hr,cr,label(p.name||''));g.key=key;g.tx=g.position.x;g.tz=g.position.z;AV[w]=g;sc.add(g)}
+function applyWorld(){if(!webgl||!sc)return;const q1=resolve('q1')!=null,p=S.prog;W.letter.visible=!q1;W.stars.forEach((s,i)=>s.visible=q1&&!(p.stars&&p.stars[i]));
+W.plates.forEach(m=>{m.visible=cnt()==3;m.material.emissiveIntensity=p.plates&&p.plates[m.role]?1.2:.3});W.gb.on=p.gate?0:1;W.altar.material.emissiveIntensity=p.gate?1.6:.9}
+function avail(it){const p=S.prog;return it.k=='letter'?resolve('q1')==null:it.k=='star'?resolve('q1')!=null&&!(p.stars&&p.stars[it.i]):!!p.gate&&resolve('q2')==null}
+function act(){if(!near||D)return;if(near.k=='star'){(S.prog.stars=S.prog.stars||{})[near.i]=S.role;S.ref.child('progress').update({['stars/'+near.i]:S.role,['inventory/star'+(near.i+1)]:true,updatedAt:SV()});chime(660+near.i*110);onProg()}else openD(near.k=='letter'?'q1':'q2')}
+$('act').onclick=act;
+addEventListener('keydown',e=>{if(/INPUT/.test(document.activeElement.tagName))return;keys[e.code]=1;if(e.code=='KeyE')act();if(e.code=='Space'&&P.y==0)P.vy=7});addEventListener('keyup',e=>keys[e.code]=0);
+let dr=0;$('cv').onpointerdown=e=>{dr=e.pointerType=='mouse'};addEventListener('pointerup',()=>dr=0);addEventListener('pointermove',e=>{if(dr&&S.started&&e.target.id=='cv'){cy-=e.movementX*.006;cp=Math.max(.15,Math.min(1.1,cp+e.movementY*.005))}});
+let lx,ly;$('cv').addEventListener('touchstart',e=>{lx=e.touches[0].clientX;ly=e.touches[0].clientY});$('cv').addEventListener('touchmove',e=>{const t0=e.touches[0];cy-=(t0.clientX-lx)*.007;cp=Math.max(.15,Math.min(1.1,cp+(t0.clientY-ly)*.005));lx=t0.clientX;ly=t0.clientY},{passive:true});
+const joy=$('joy');function jmove(e){const r=joy.getBoundingClientRect(),dx=e.clientX-r.left-60,dy=e.clientY-r.top-60,m=Math.min(1,Math.hypot(dx,dy)/50),a=Math.atan2(dy,dx);jx=Math.cos(a)*m;jz=Math.sin(a)*m;$('knob').style.transform=`translate(${jx*40}px,${jz*40}px)`}
+joy.onpointerdown=e=>{joy.setPointerCapture(e.pointerId);jmove(e)};joy.onpointermove=e=>{if(e.buttons||e.pointerType=='touch')jmove(e)};joy.onpointerup=joy.onpointercancel=()=>{jx=jz=0;$('knob').style.transform=''};
+let lastSend=0,onPl=false,last=0;
+function step(dt){let ix=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0)+jx,iz=(keys.KeyS||keys.ArrowDown?1:0)-(keys.KeyW||keys.ArrowUp?1:0)+jz;
+const m=Math.hypot(ix,iz);if(D||modalOpenNow())ix=iz=0;let moved=false;
+if(m>.1){const n=Math.min(1,m)/m,dx=(ix*Math.cos(cy)+iz*Math.sin(cy))*n,dz=(-ix*Math.sin(cy)+iz*Math.cos(cy))*n,ox=P.x,oz=P.z;P.x+=dx*6*dt;P.z+=dz*6*dt;
+P.x=Math.max(-33,Math.min(33,P.x));P.z=Math.max(-30,Math.min(29,P.z));
+CC.forEach(c=>{const ex=P.x-c[0],ez=P.z-c[1],d=Math.hypot(ex,ez),r=c[2]+.4;if(d<r&&d>0){P.x=c[0]+ex/d*r;P.z=c[1]+ez/d*r}});
+CB.forEach(b=>{if(!b.on)return;const qx=Math.max(b.a,Math.min(P.x,b.b)),qz=Math.max(b.c,Math.min(P.z,b.d)),ex=P.x-qx,ez=P.z-qz,d=Math.hypot(ex,ez);if(d<.45){if(d>0){P.x=qx+ex/d*.45;P.z=qz+ez/d*.45}else{P.x=ox;P.z=oz}}});
+let da=Math.atan2(dx,dz)-P.ry;da=Math.atan2(Math.sin(da),Math.cos(da));P.ry+=da*Math.min(1,dt*12);moved=true}
+P.vy-=20*dt;P.y=Math.max(0,P.y+P.vy*dt);if(P.y==0)P.vy=0;
+const a=AV.me;if(a){a.position.set(P.x,P.y+(moved?Math.abs(Math.sin(performance.now()/110))*.12:0),P.z);a.rotation.y=P.ry}
+if(S.started&&performance.now()-lastSend>110&&(moved||lastSend==0)){lastSend=performance.now();S.ref.child('pos/'+S.role).set({x:+P.x.toFixed(2),z:+P.z.toFixed(2),r:+P.ry.toFixed(2),t:SV()})}
+const o=AV.ot,op=S.pos[other()];if(o&&op){o.tx=op.x;o.tz=op.z;o.position.x+=(o.tx-o.position.x)*Math.min(1,dt*10);o.position.z+=(o.tz-o.position.z)*Math.min(1,dt*10);o.rotation.y=op.r||0}
+near=null;let best=3.4;IT.forEach(it=>{if(!avail(it))return;const d=Math.hypot(P.x-it.x,P.z-it.z);if(d<best){best=d;near=it}});
+const ab=$('act');ab.style.display=near&&!D?'flex':'none';if(near)ab.textContent=t(near.k=='letter'?'read':near.k=='star'?'take':'altar');
+if(S.started&&cnt()==3&&!S.prog.gate){const pp=PL[S.role],on=Math.hypot(P.x-pp[0],P.z-pp[1])<1.7;if(on!=onPl){onPl=on;S.ref.child('progress/plates/'+S.role).set(on)}}
+cam.position.set(P.x+Math.sin(cy)*Math.cos(cp)*9,P.y+1.6+Math.sin(cp)*9,P.z+Math.cos(cy)*Math.cos(cp)*9);cam.lookAt(P.x,P.y+1.5,P.z)}
+const modalOpenNow=()=>$('md').classList.contains('on');
+function loop(ts){requestAnimationFrame(loop);const dt=Math.min((ts-last)/1000,.05);last=ts;
+if(S.started&&$('game').classList.contains('on'))step(dt);else{const a=ts*.00008;cam.position.set(Math.sin(a)*38,10+Math.sin(a*3)*2,-25+Math.cos(a)*38);cam.lookAt(0,7,-35)}
+const tm=ts*.001;W.stars.forEach((s,i)=>{s.rotation.y=tm*1.5;s.position.y=1.8+Math.sin(tm*2+i)*.25});W.letter.position.y=1.8+Math.sin(tm*2)*.15;W.letter.lookAt(cam.position);
+const g=S.prog.gate?1:0;W.gl.position.x+=((g?-5.6:-2)-W.gl.position.x)*.06;W.gr.position.x+=((g?5.6:2)-W.gr.position.x)*.06;
+W.ff.rotation.y=tm*.05;R.render(sc,cam)}
+/* ============ 10. BOOT ============ */
+i18n();if(webgl){build();requestAnimationFrame(loop)}
+</script></body></html>
