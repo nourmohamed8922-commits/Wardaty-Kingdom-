@@ -64,7 +64,7 @@ h2{color:#fff;opacity:.95}h3{color:#fff}#dlg b{color:#cdeaff}.gold{color:var(--g
 .role,.sw.sel{border-color:#fff}.role{background:rgba(255,255,255,.14);border-radius:20px}.role.sel{background:rgba(255,255,255,.4)}
 #act{background:radial-gradient(#fff,#cfe6ff);box-shadow:0 0 34px rgba(255,255,255,.95)}
 body::after{background:radial-gradient(ellipse at 50% 45%,transparent 62%,rgba(10,30,90,.38))}
-</style></head><body>
+#fly{position:absolute;bottom:calc(max(24px,env(safe-area-inset-bottom)) + 104px);inset-inline-end:28px;width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,.7);background:rgba(255,255,255,.22);color:#fff;font:inherit;font-size:14px;cursor:pointer;touch-action:none}</style></head><body>
 <canvas id="cv"></canvas>
 
 <section id="nogl" class="scr"><div class="glass"><h3>WebGL</h3><p id="nogltxt"></p></div></section>
@@ -72,7 +72,7 @@ body::after{background:radial-gradient(ellipse at 50% 45%,transparent 62%,rgba(1
 <section id="menu" class="scr on"><div class="ttl">
 <h1 data-i="title"></h1><h2>KINGDOM OF ETERNITY</h2><p data-i="sub"></p>
 <div class="col"><button class="btn" id="bStart" data-i="start"></button><button class="btn" id="bCont" data-i="cont" style="display:none"></button>
-<button class="btn sec" id="bSet" data-i="set"></button><button class="btn sec" id="bHow" data-i="how"></button></div></div><div style="position:fixed;bottom:6px;inset-inline-end:10px;opacity:.55;font:12px sans-serif;z-index:3">v3 · Sky style</div></section>
+<button class="btn sec" id="bSet" data-i="set"></button><button class="btn sec" id="bHow" data-i="how"></button></div></div><div style="position:fixed;bottom:6px;inset-inline-end:10px;opacity:.55;font:12px sans-serif;z-index:3">v4 · play</div></section>
 
 <section id="auth" class="scr"><div class="glass"><h3 data-i="gate"></h3>
 <div class="err" id="cfgw"></div>
@@ -101,9 +101,10 @@ body::after{background:radial-gradient(ellipse at 50% 45%,transparent 62%,rgba(1
 
 <section id="game" class="scr">
 <div id="top"><div class="pill"><span id="kname"></span><br><span class="dim" id="pst"></span></div>
-<div class="row"><button class="ib" id="bChat"><span data-i="chat"></span><span id="bd"></span></button><button class="ib" id="bPause">☰</button></div></div>
+<div class="row"><button class="ib" id="bEm" data-i="emo"></button><button class="ib" id="bChat"><span data-i="chat"></span><span id="bd"></span></button><button class="ib" id="bPause">☰</button></div></div>
 <div id="obj" class="pill"></div>
-<div id="joy"><div id="knob"></div></div><button id="act"></button>
+<div id="wp" class="pill" style="position:absolute;top:calc(max(8px,env(safe-area-inset-top)) + 54px);left:50%;transform:translateX(-50%);text-align:center;display:none"><div id="wpa" style="font-size:30px;line-height:1">▲</div><div id="wpd" style="font-size:14px"></div></div>
+<div id="joy"><div id="knob"></div></div><button id="act"></button><button id="fly" data-i="fly"></button>
 <div id="dlg" class="glass"></div>
 <div id="chat" class="glass"><div id="msgs"></div><div class="row" style="flex-wrap:nowrap"><input id="ci" maxlength="300"><button class="ib" id="bSend" data-i="send"></button></div></div>
 </section>
@@ -153,8 +154,8 @@ cr:'أسّس مملكتك',kn:'اسم المملكة',emb:'الشعار',kcol:'�
 portal:'رمز دعوة مملكتك',pdesc:'أرسله لشريكك ليعبر البوابة.',cp:'نسخ الرمز',sh:'مشاركة الرابط',copied:'تم النسخ',onward:'تابع',
 whoami:'من أنت في الحكاية؟',king:'الملك',queen:'الملكة',yn:'اسمك',out:'الزي',hair:'الشعر',enter:'ادخل المملكة',taken:'هذا الدور اختاره شريكك.',pj:'شريكك',waiting:'بانتظار شريكك...',
 off:'غير متصل',on:'متصل',send:'إرسال',chat:'محادثة',letter:'الرسالة المضيئة',next:'التالي',ok:'حسنًا',wait:'بانتظار اختيار شريكك...',
-differ:'اختلفت إجابتاكما. تحدثا في المحادثة ثم اتفقا على إجابة واحدة:',read:'اقرأ',take:'خذ النجمة',altar:'المذبح',
-m0:'الرسالة المضيئة',o0:'اقرأ الرسالة قرب النافورة وأجيبا معًا.',m1:'النجوم الثلاث',o1:'اعثرا على النجوم الذهبية الثلاث ({n}/3).',
+differ:'اختلفت إجابتاكما. تحدثا في المحادثة ثم اتفقا على إجابة واحدة:',read:'اقرأ',take:'خذ النجمة',trial:'ابدأ التحدي',altar:'المذبح',
+m0:'الرسالة المضيئة',o0:'اقرأ الرسالة قرب النافورة وأجيبا معًا.',m1:'النجوم الثلاث',o1:'اعثرا على النجوم الذهبية الثلاث ({n}/3). بعضها عالٍ: حلّقا بزر التحليق أو المسافة وابقيا ضاغطَين للانزلاق.',
 m2:'بوابة الشخصين',o2:'قف كلٌّ منكما على لوحه المضيء في الوقت نفسه ليُفتح الباب.',m3:'الوعد الأول',o3:'ادخلا الغرفة السرية وتبادلا الوعد عند المذبح.',m4:'اكتمل الفصل',o4:'استكشفا الحديقة بحرية.',
 ch:'الفصل ١: بداية الحكاية',endT:'اكتمل الفصل الأول',endS:'النجوم',endA:'أول وعد',endN:'الفصل ٢ «المدينة المنسية» لم يُبنَ بعد، لكن حكايتكما محفوظة.',
 lang:'اللغة',ql:'جودة الرسوم',lo:'منخفضة',me:'متوسطة',hi:'عالية',snd:'المؤثرات الصوتية',res:'متابعة',leave:'خروج من المملكة',
@@ -172,8 +173,8 @@ cr:'Found Your Kingdom',kn:'Kingdom name',emb:'Emblem',kcol:'Kingdom color',foun
 portal:'Your Invitation Code',pdesc:'Send it to your partner so they can cross the gate.',cp:'Copy code',sh:'Share link',copied:'Copied',onward:'Continue',
 whoami:'Who are you in the story?',king:'The King',queen:'The Queen',yn:'Your name',out:'Outfit',hair:'Hair',enter:'Enter the Kingdom',taken:'Your partner already chose this role.',pj:'Partner',waiting:'Waiting for your partner...',
 off:'offline',on:'online',send:'Send',chat:'Chat',letter:'The Glowing Letter',next:'Next',ok:'OK',wait:'Waiting for your partner to choose...',
-differ:'You chose differently. Talk it over in chat, then agree on one answer:',read:'Read',take:'Take star',altar:'Altar',
-m0:'The Glowing Letter',o0:'Read the letter by the fountain and answer together.',m1:'Three Stars',o1:'Find the three golden stars ({n}/3).',
+differ:'You chose differently. Talk it over in chat, then agree on one answer:',read:'Read',take:'Take star',trial:'Begin trial',altar:'Altar',
+m0:'The Glowing Letter',o0:'Read the letter by the fountain and answer together.',m1:'Three Stars',o1:'Find the three golden stars ({n}/3). Some are high: press Fly or Space and keep holding to glide.',
 m2:'The Two-Person Gate',o2:'Each of you stand on your glowing plate at the same time to open the gate.',m3:'The First Promise',o3:'Enter the secret room and exchange your promise at the altar.',m4:'Chapter complete',o4:'Explore the garden freely.',
 ch:'Chapter 1: The First Meeting',endT:'Chapter One Complete',endS:'Stars',endA:'First Promise',endN:'Chapter 2, The Forgotten City, is not built yet, but your story is saved.',
 lang:'Language',ql:'Graphics quality',lo:'Low',me:'Medium',hi:'High',snd:'Sound effects',res:'Resume',leave:'Leave kingdom',
@@ -190,14 +191,14 @@ $('rKing').textContent=t('king');$('rQueen').textContent=t('queen');$('nogltxt')
 
 /* ============ CHAPTERS 1-10 (data-driven) ============ */
 Object.assign(T.ar,{endT:'اكتمل الفصل',chn:'الفصل',echo:'النجوم تخفت... وأقرب ما اخترتماه إلى قلبيكما هو «{d}»، وفيه مفتاح الضوء.',dn:['الناس','الأماكن','الذكريات'],
-g0:'الذكرى',g1:'الجمع',g2:'البوابة',g3:'القرار',g4:'اكتمل الفصل',go0:'اقرأ الذكرى المضيئة قرب النافورة وأجيبا معًا.',go1:'اجمعا {i} ({n}/{N}).',
-gp:'قف كلٌّ منكما على لوحه المضيء في الوقت نفسه لفتح البوابة.',gc:'كلٌّ منكما يرى نصف الرمز عند عموده. اجمعا النصفين وأدخلاه عند الباب.',gs:'كلٌّ منكما يرى نصف التسلسل عند عموده. اجمعاه وأدخلاه عند الباب.',go3:'ادخلا الغرفة السرية واتخذا القرار عند المذبح.',go4:'استكشفا بحرية.',
-pil:'العمود',door:'الباب',other:'النصف الآخر مع شريكك. تحدثا في المحادثة.',wrong:'خطأ، حاولا مرة أخرى.',nx:'الفصل التالي',jr:'الحقيبة والإنجازات',ach:'الإنجازات',ending:'النهاية',endS2:'مجموع ما جمعتماه: {n}',
+g0:'الذكرى',g1:'الجمع',g2:'البوابة',g3:'القرار',g4:'اكتمل الفصل',go0:'اقرأ الذكرى المضيئة قرب النافورة وأجيبا معًا.',go1:'اجمعا {i} ({n}/{N}). بعضها عالٍ، استخدما التحليق.',
+gp:'قف كلٌّ منكما على لوحه المضيء في الوقت نفسه لفتح البوابة.',gc:'اذهب إلى عمودك المضيء (الملك: الذهبي، الملكة: السماوي) لتعرف نصف السر، وتبادلاه مع شريكك في المحادثة، ثم أدخلا الخانات الأربع عند الباب الأرجواني.',gs:'اذهب إلى عمودك المضيء (الملك: الذهبي، الملكة: السماوي) لتعرف نصف السر، وتبادلاه مع شريكك في المحادثة، ثم أدخلا الخانات الأربع عند الباب الأرجواني.',go3:'ادخلا الغرفة السرية واتخذا القرار عند المذبح.',go4:'استكشفا بحرية.',
+pil:'العمود',door:'الباب',other:'النصف الآخر مع شريكك. تحدثا في المحادثة.',wrong:'خطأ، حاولا مرة أخرى.',nx:'الفصل التالي',jr:'الحقيبة والإنجازات',ach:'الإنجازات',ending:'النهاية',endS2:'الفصول المكتملة: {n} من ١٠',
 endN2:'التالي: {x}'});
 Object.assign(T.en,{endT:'Chapter complete',chn:'Chapter',echo:"The stars are fading... what you both held closest was \"{d}\", and it holds the key to the light.",dn:['People','Places','Memories'],
-g0:'The Memory',g1:'Gathering',g2:'The Gate',g3:'The Decision',g4:'Chapter complete',go0:'Read the glowing memory by the fountain and answer together.',go1:'Gather the {i} ({n}/{N}).',
-gp:'Each of you stand on your glowing plate at the same time to open the gate.',gc:'Each of you sees half of the code at your pillar. Combine both halves and enter it at the door.',gs:'Each of you sees half of the sequence at your pillar. Combine both and enter it at the door.',go3:'Enter the secret room and make your decision at the altar.',go4:'Explore freely.',
-pil:'Pillar',door:'Door',other:"The other half is with your partner. Talk in chat.",wrong:'Wrong, try again.',nx:'Next chapter',jr:'Satchel & Achievements',ach:'Achievements',ending:'Ending',endS2:'Total collected: {n}',
+g0:'The Memory',g1:'Gathering',g2:'The Gate',g3:'The Decision',g4:'Chapter complete',go0:'Read the glowing memory by the fountain and answer together.',go1:'Gather the {i} ({n}/{N}). Some are high, use Fly.',
+gp:'Each of you stand on your glowing plate at the same time to open the gate.',gc:'Go to your glowing pillar (King: gold, Queen: cyan) to learn half of the secret, share it with your partner in chat, then enter all four slots at the purple door.',gs:'Go to your glowing pillar (King: gold, Queen: cyan) to learn half of the secret, share it with your partner in chat, then enter all four slots at the purple door.',go3:'Enter the secret room and make your decision at the altar.',go4:'Explore freely.',
+pil:'Pillar',door:'Door',other:"The other half is with your partner. Talk in chat.",wrong:'Wrong, try again.',nx:'Next chapter',jr:'Satchel & Achievements',ach:'Achievements',ending:'Ending',endS2:'Chapters completed: {n} of 10',
 endN2:'Next: {x}'});
 T.ar.take0='خذ';
 const END={ar:[['المملكة الأبدية','اخترتما الناس قبل كل شيء، فصارت المملكة بيتًا مفتوحًا لكل من يدخلها.'],['مملكة النور','اخترتما الطرق والأماكن، فصارت المملكة منارة لكل مسافر.'],['حديقة الذكريات','اخترتما الذكريات، فصارت مملكتكما حديقة لا تذبل أبدًا.'],['النجمتان','توازنتما في كل شيء، فصرتما نجمتين تضيئان معًا في السماء نفسها.']],
@@ -262,6 +263,12 @@ Object.assign(CH[7],{bg:0x4a4aa8,hz:0xff9a6a,gr:0x6fa650,pa:0xf0d8a0,hd:0x9a5a3a
 Object.assign(CH[8],{bg:0x070b33,hz:0x3a4aa0,nt:1,gr:0x2a4a8a,pa:0x8a9ae8,hd:0x4a5ab0});
 Object.assign(CH[9],{bg:0x1a1040,hz:0x7a4a8a,nt:1,gr:0x3a3a6a,pa:0x7a6ab0,hd:0x4a3a7a,pc:[0x5a5aa0,0x7a7ac8]});
 Object.assign(CH[10],{bg:0x6f95e8,hz:0xffe3a8,gr:0x7fc060,pa:0xf5e6b8,hd:0x7a5ac0,pc:[0xf0c878,0xffffff],dc:0xfff0c0});
+Object.assign(T.ar,{fly:'تحليق',emo:'تفاعل',wave:'تلويح',sit:'جلوس',hug:'عناق',call:'نداء',calls:'ينادي عليك',talk:'تحدّث',spn:'روح قديمة',wst:'نجمة',wplate:'لوحك',clr:'مسح',
+hint1:'هذا نصيبك من السر. للغز ٤ خانات بالترتيب، وشريكك يعرف الخانتين الباقيتين.',hint2:'اكتبا لبعض في المحادثة ما ترونه (الملك يرى ١ و٢، والملكة ٣ و٤)، ثم اذهبا إلى الباب الأرجواني أمام الغرفة السرية وأدخلا الخانات الأربع بالترتيب.',door1:'أدخلا الخانات الأربع بالترتيب من ١ إلى ٤.',
+sp:['أنا أضيء منذ ألف ليلة، أنتظر من يتبع ضوء الفانوس بدل أن يسبقه.','النجوم العالية لا تُنال بالقفز، بل بالانزلاق على الهواء. اضغطا «تحليق» وابقيا ضاغطَين.','ما تقولانه لبعضكما في المحادثة يصل أبعد مما تتخيلان.','لا تعبرا الغرفة السرية قبل أن تتفقا؛ البوابة تحب الاتفاق.','كل نجمة تحمل ذكرى، ومن يجمعها وحيدًا يجدها ناقصة.','اضغطا «تفاعل» ثم «نداء» حين تضيعان، فالضوء يعرف طريق من ينادي.','الغيوم هنا تحفظ الأسرار، وتُفشيها لمن يحلّق بما يكفي.','وصلتما بعيدًا، وما زال في الحكاية أكثر مما يبدو.']});
+Object.assign(T.en,{fly:'Fly',emo:'Emotes',wave:'Wave',sit:'Sit',hug:'Hug',call:'Call',calls:'is calling you',talk:'Talk',spn:'An Old Spirit',wst:'Star',wplate:'Your plate',clr:'Clear',
+hint1:'This is your share of the secret. The puzzle has 4 slots in order, and your partner knows the other two.',hint2:'Tell each other in chat what you see (the King sees 1 and 2, the Queen 3 and 4), then go to the purple door in front of the secret room and enter all four slots in order.',door1:'Enter the four slots in order, 1 to 4.',
+sp:['I have glowed for a thousand nights, waiting for someone who follows the lantern instead of racing it.','High stars are not reached by jumping, but by gliding. Press Fly and keep holding.','What you tell each other in chat travels farther than you imagine.','Do not cross the secret room before you agree; the gate loves agreement.','Every star holds a memory, and whoever gathers it alone finds it incomplete.','Press Emotes then Call when you are lost; the light knows the way of those who call.','The clouds here keep secrets, and tell them to those who fly high enough.','You have come far, and the story holds more than it seems.']});
 /* ============ 3. STATE & HELPERS ============ */
 const S={players:{},prog:{},pos:{},role:null,started:false};
 let D=null,ds=0,AC,near=null,unread=0,chatOn=false;
@@ -269,7 +276,7 @@ const cn=()=>S.prog.chapter||1,pre=()=>cn()==1?'':'ch'+cn()+'/',C=()=>cn()==1?S.
 const resolveIn=(c0,q)=>{const c=((c0.choices||{})[q])||{},a=c.ans||{},f=c.fin||{};if(a.king!=null&&a.king===a.queen)return a.king;if(f.king!=null&&f.king===f.queen)return f.king;return null};
 const resolve=q=>resolveIn(C(),q);
 const cnt=()=>Object.keys(C().stars||{}).length,NI=()=>SP().items;
-const mission=()=>{const[a,b]=ids(cn());return resolve(a)==null?0:cnt()<NI()?1:!C().gate?2:resolve(b)==null?3:4};
+const mission=()=>{const[a,b]=ids(cn()),d=C().storyDone||{};return resolve(a)==null?0:(d.king&&d.queen)?(resolve(b)==null?3:4):1};
 const other=()=>S.role=='king'?'queen':'king';
 const spk=r=>r=='letter'?esc(t('letter')):esc((S.players[r]&&S.players[r].name)||t(r));
 function show(id){document.querySelectorAll('.scr').forEach(e=>{if(e.id!='md')e.classList.toggle('on',e.id==id)})}
@@ -318,7 +325,8 @@ if(!S.started){if(S.first===undefined){S.first=1;const me=['king','queen'].find(
 swatches($('outs'),OUT,c=>draft.out=c,0);swatches($('hairs'),HAIR,c=>draft.hair=c,0)}renderSetup()}else onPlayers()});
 S.ref.child('progress').on('value',s=>{S.prog=s.val()||{};if(S.started)onProg()});
 S.ref.child('pos').on('value',s=>S.pos=s.val()||{});
-S.ref.child('chat').limitToLast(60).on('child_added',s=>addMsg(s.val()))}
+S.ref.child('chat').limitToLast(60).on('child_added',s=>addMsg(s.val()));
+S.ref.child('emote').on('value',s=>{const e=(s.val()||{})[other()];if(e&&e.t){const first=S.lastEm===undefined;S.lastEm=e.t;if(!first&&S.started)onEmote(e.k)}})}
 function renderSetup(){const p=S.players,mine=['king','queen'].find(r=>p[r]&&p[r].uid==S.uid);
 ['king','queen'].forEach(r=>{const b=$(r=='king'?'rKing':'rQueen'),o=p[r]&&p[r].uid!=S.uid;b.disabled=!!o;b.classList.toggle('sel',mine==r);b.textContent=t(r)+(o?' · '+(p[r].name||''):'')});
 const o=p[mine?(mine=='king'?'queen':'king'):'king'],pr=mine?p[mine=='king'?'queen':'king']:null;
@@ -345,16 +353,20 @@ function qd(id,n){n=n||cn();if(n==1)return T[L].q[id];const i=id=='a'?0:1,v=CH[n
 function tally(upto){const c=[0,0,0];for(let k=1;k<=upto;k++)ids(k).forEach(q=>{const r=resolveIn(chData(k),q);if(r!=null)c[r]++});return c}
 const domIdx=()=>{const c=tally(cn()-1),m=Math.max(...c);return c.indexOf(m)};
 const choiceTxt=(k,i)=>{const q=ids(k)[i],r=resolveIn(chData(k),q);return r==null?'-':qd(q,k).opts[r]};
-function objText(m){const n=cn();if(n==1)return`<b>${t('m'+m)}</b><br>${t('o'+m).replace('{n}',cnt())}`;const s=SP();
-return`<b>${t('g'+m)}</b><br>${t(['go0','go1',{plates:'gp',code:'gc',seq:'gs'}[s.mech],'go3','go4'][m]).replace('{i}',s.inm[L]).replace('{n}',cnt()).replace('{N}',s.items)}`}
+function objText(m){
+ const n=cn(),done=C().storyDone||{};
+ if(m===0)return `<b>${L==='ar'?'اكتشفوا بداية الحكاية':'Discover the beginning'}</b><br>${L==='ar'?'اقتربا من الرسالة القديمة واقرآ ما تخفيه.':'Approach the old letter and uncover its message.'}`;
+ if(m===1)return `<b>${L==='ar'?'اختبار الفصل: ':'Chapter trial: '}${STORY[n].title[L]}</b><br>${L==='ar'?'لكل لاعب تحدٍّ خاص. أكملوا الاختبار معًا لفتح المشهد التالي.':'Each player has a trial. Both must complete it to unlock the next scene.'}<br><span class="dim">${L==='ar'?'الملك':'King'}: ${done.king?'✔':'…'} · ${L==='ar'?'الملكة':'Queen'}: ${done.queen?'✔':'…'}</span>`;
+ if(m===3)return `<b>${L==='ar'?'المشهد الحاسم':'The defining scene'}</b><br>${L==='ar'?'اقتربا من المذبح واتخذا قراركما التالي.':'Approach the altar and make your next decision.'}`;
+ return `<b>${L==='ar'?'اكتمل الفصل':'Chapter complete'}</b><br>${L==='ar'?'اختياراتكما أصبحت جزءًا من تاريخ المملكة.':'Your choices are now part of the kingdom’s history.'}`;
+}
 function onProg(){const n=cn();if(S.started&&S.built!=n){rebuild(n);return onProg()}
-const c=C(),m=mission(),[ia,ib]=ids(n),pf=pre();applyWorld();
-$('obj').innerHTML=`<b class="gold">${t('chn')} ${n}: ${SP()[L]}</b><br>`+objText(m);
-if(!c.gate&&cnt()==NI()&&SP().mech=='plates'&&c.plates&&c.plates.king&&c.plates.queen)S.ref.child('progress').update({[pf+'gate']:true,['inventory/key'+n]:true,updatedAt:SV()});
-[ia,ib].forEach(q=>{const f=((c.choices||{})[q]||{}).fin;if(f&&f.king!=null&&f.queen!=null&&f.king!==f.queen&&S.role=='king')S.ref.child('progress/'+pf+'choices/'+q+'/fin').remove()});
-if(m==4&&!c.chapterDone)S.ref.child('progress').update({[pf+'chapterDone']:true,['achievements/ch'+n]:true,updatedAt:SV()});
-if(m==4&&S.endN!==n){S.endN=n;showEnd()}
-if(D)renderQ()}
+ const m=mission();applyWorld();
+ $('obj').innerHTML=`<b class="gold">${t('chn')} ${n}: ${SP()[L]}</b><br>`+objText(m);
+ if(m===4&&!C().chapterDone)S.ref.child('progress').update({[pre()+'chapterDone']:true,['achievements/ch'+n]:true,updatedAt:SV()});
+ if(m===4&&S.endN!==n){S.endN=n;showEnd()}
+ if(D)renderQ();
+}
 function openD(q){D=q;ds=0;$('dlg').style.display='block';renderQ()}
 function closeD(){D=null;$('dlg').style.display='none'}
 function pick(i,fin){S.ref.child('progress/'+pre()+'choices/'+D+'/'+(fin?'fin':'ans')+'/'+S.role).set(i);S.ref.child('progress/updatedAt').set(SV());chime(520+i*80)}
@@ -372,21 +384,93 @@ function showEnd(){const n=cn();if(n==10)return showFinal();
 modal(`<h3>${t('endT')} ${n}</h3><p>${SP()[L]}<br><span class="gold">${choiceTxt(n,0)}</span><br><span class="gold">${choiceTxt(n,1)}</span></p><p class="dim">${t('endN2').replace('{x}',CH[n+1][L])}</p><button class="btn" onclick="nextCh()">${t('nx')}</button><button class="btn sec" onclick="closeM()" style="margin-top:8px">${t('ok')}</button>`);chime(784)}
 function nextCh(){S.ref.child('progress').update({chapter:cn()+1,updatedAt:SV()});closeM()}
 function showIntro(n){modal(`<h3>${t('chn')} ${n}</h3><p class="gold">${CH[n][L]}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`)}
-function showFinal(){const c=tally(10),mx=Math.max(...c),top=c.map((v,i)=>v==mx?i:-1).filter(i=>i>=0),e=top.length==1?top[0]:3,[tt,x]=END[L][e];let st=0;for(let k=1;k<=10;k++)st+=Object.keys(chData(k).stars||{}).length;
+function showFinal(){const c=tally(10),mx=Math.max(...c),top=c.map((v,i)=>v==mx?i:-1).filter(i=>i>=0),e=top.length==1?top[0]:3,[tt,x]=END[L][e];let st=0;for(let k=1;k<=10;k++)if(chData(k).chapterDone)st++;
 modal(`<h3>${t('ending')}: ${tt}</h3><p>${x}</p><p class="dim">${t('endS2').replace('{n}',st)}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`);chime(659);setTimeout(()=>chime(784),300);setTimeout(()=>chime(988),600)}
-function journal(){const n=cn();let h=`<h3>${t('jr')}</h3>`,st=0;for(let k=1;k<=n;k++){const d=chData(k);st+=Object.keys(d.stars||{}).length;h+=`<p>${d.chapterDone?'✔':'•'} ${t('chn')} ${k}: ${CH[k][L]}`+(d.chapterDone?`<br><span class="dim">${choiceTxt(k,0)} / ${choiceTxt(k,1)}</span>`:'')+'</p>'}
-modal(h+`<p class="gold">${t('endS')}: ${st} · ${t('ach')}: ${Object.keys(S.prog.achievements||{}).length}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`)}
+function journal(){const n=cn();let h=`<h3>${t('jr')}</h3>`,st=0;for(let k=1;k<=n;k++){const d=chData(k);if(d.chapterDone)st++;h+=`<p>${d.chapterDone?'✔':'•'} ${t('chn')} ${k}: ${CH[k][L]}`+(d.chapterDone?`<br><span class="dim">${choiceTxt(k,0)} / ${choiceTxt(k,1)}</span>`:'')+'</p>'}
+modal(h+`<p class="gold">${L==='ar'?'الفصول المكتملة':'Chapters completed'}: ${st} · ${t('ach')}: ${Object.keys(S.prog.achievements||{}).length}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`)}
 function toast(x){const d=document.createElement('div');d.className='pill';d.style.cssText='position:fixed;top:28%;left:50%;transform:translateX(-50%);z-index:9;font-size:22px;color:#f0c878;transition:opacity 1s';d.textContent=x;document.body.appendChild(d);setTimeout(()=>d.style.opacity=0,1800);setTimeout(()=>d.remove(),2900)}
 /* riddle gate: each player sees half of a 4-token secret */
 const RC=['#ff5d6c','#f0c878','#5fe6ff','#b06bff'],RN={ar:['أحمر','ذهبي','سماوي','بنفسجي'],en:['Red','Gold','Cyan','Violet']};
 const secret=n=>[0,1,2,3].map(i=>CH[n].mech=='code'?(n*7+i*3+1)%10:(n*3+i*2+i%2)%4),tok=(v,n)=>CH[n].mech=='code'?v:RN[L][v];
-function hint(){const n=cn(),s=secret(n),h=S.role=='king'?s.slice(0,2):s.slice(2);modal(`<h3>${t('pil')}</h3><p class="gold" style="font-size:28px;text-align:center;direction:ltr">${h.map(v=>tok(v,n)).join(' · ')}</p><p class="dim">${t('other')}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`)}
+const SLOT=['1','2','3','4'];
+function slots(vals,n){const code=CH[n].mech=='code';return '<div style="display:flex;gap:8px;justify-content:center;direction:ltr;margin:12px 0">'+[0,1,2,3].map(i=>{const v=vals[i];const body=v==null?'?':code?v:`<span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:${RC[v]};box-shadow:0 0 12px ${RC[v]}"></span>`;
+return `<div style="min-width:62px;padding:8px 6px;border-radius:16px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.15);text-align:center"><div style="font-size:13px;opacity:.75">${SLOT[i]}</div><div style="font-size:26px;min-height:30px">${body}</div>${!code&&v!=null?`<div style="font-size:13px">${RN[L][v]}</div>`:''}</div>`}).join('')+'</div>'}
+function hint(){const n=cn(),s=secret(n),k=S.role=='king',v=[0,1,2,3].map(i=>(k?i<2:i>=2)?s[i]:null);S.seen=n;
+modal(`<h3>${t('pil')}</h3><p>${t('hint1')}</p>${slots(v,n)}<p class="dim">${t('hint2')}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`)}
 let EN=[];
-function doorUI(msg){const n=cn(),code=CH[n].mech=='code',sh=EN.map(v=>code?v:`<span style="color:${RC[v]}">●</span>`).join(' ');
+function doorUI(msg){const n=cn(),code=CH[n].mech=='code';
 const ks=(code?[0,1,2,3,4,5,6,7,8,9]:[0,1,2,3]).map(v=>`<button class="ib" style="margin:4px;min-width:46px;${code?'':'color:'+RC[v]}" onclick="rin(${v})">${code?v:RN[L][v]}</button>`).join('');
-modal(`<h3>${t('door')}</h3><p style="font-size:26px;text-align:center;direction:ltr;min-height:36px">${sh||'····'}</p><p class="err">${msg||''}</p><div style="text-align:center">${ks}</div><button class="btn sec" style="margin-top:10px" onclick="closeM()">${t('ok')}</button>`)}
+modal(`<h3>${t('door')}</h3><p class="dim">${t('door1')}</p>${slots([0,1,2,3].map(i=>EN[i]),n)}<p class="err">${msg||''}</p><div style="text-align:center">${ks}</div><div class="row" style="justify-content:center;margin-top:10px"><button class="btn sec" style="min-width:110px" onclick="EN=[];doorUI()">${t('clr')}</button><button class="btn sec" style="min-width:110px" onclick="closeM()">${t('ok')}</button></div>`)}
 function rin(v){EN.push(v);const n=cn(),s=secret(n);if(EN.length<4)return doorUI();const ok=EN.every((x,i)=>x==s[i]);EN=[];if(ok){closeM();S.ref.child('progress').update({[pre()+'gate']:true,['inventory/key'+n]:true,updatedAt:SV()});chime(880)}else doorUI(t('wrong'))}
-
+function emoMenu(){modal(`<h3>${t('emo')}</h3><div class="col">${['wave','sit','hug','call'].map(k=>`<button class="btn sec" onclick="emote('${k}')">${t(k)}</button>`).join('')}<button class="btn" onclick="closeM()">${t('ok')}</button></div>`)}
+function playEm(av,k){if(!av)return;av.em={k,t0:performance.now()};if(k=='call'){const m=new THREE.Mesh(new THREE.RingGeometry(.5,.62,40),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:2}));m.rotation.x=-Math.PI/2;m.position.set(av.position.x,.15,av.position.z);sc.add(m);(W.fx=W.fx||[]).push({m,t0:performance.now()})}
+if(k=='hug'){const h=halo(0xff8fb0,3.4,.9);h.position.y=2.9;av.add(h);setTimeout(()=>av.remove(h),3500)}}
+function emote(k){closeM();S.ref.child('emote/'+S.role).set({k,t:SV()});playEm(AV.me,k);if(k=='call'){chime(988);setTimeout(()=>chime(1318),180)}}
+function onEmote(k){playEm(AV.ot,k);if(k=='call'){chime(988);setTimeout(()=>chime(1318),180);toast(((S.players[other()]||{}).name||'')+' '+t('calls'))}}
+function talk(i){modal(`<h3>${t('spn')}</h3><p>${t('sp')[(i+cn())%8]}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`)}
+/* Ten distinct chapter trials: narrative puzzles replace the repeated star-collect/gate loop. */
+const STORY={
+1:{title:{ar:'إشارة اللقاء',en:'The Meeting Signal'},clue:{ar:'الرسالة تقول: «ابدأوا بالضوء الذي يسبق الفجر، ثم اتبعوا صدى القلب». رتّبوا الأضواء كما ظهرت في السماء.',en:'The letter says: “Begin with the light before dawn, then follow the heart’s echo.” Rebuild the lights in the order they appeared.'},tokens:[['☾','✦','☀','♡'],['Moon','Star','Sun','Heart']],answer:[0,2,1,3]},
+2:{type:'choice',title:{ar:'إعادة بناء المدينة',en:'Rebuilding the City'},clue:{ar:'أهل المدينة يسألون: ما أول ما يجب إصلاحه كي تعود الحياة إلى الساحة؟',en:'The citizens ask: what should be restored first to bring life back to the square?'},tokens:[['⛲ النافورة','🌉 الجسر','🏛 الساحة'],['Fountain','Bridge','Square']],answer:[0,1,2]},
+3:{title:{ar:'صدى الغابة',en:'The Forest Echo'},clue:{ar:'روح الغابة تكرر أربع نغمات. أعيدوا النمط: أخضر، أزرق، ذهبي، بنفسجي.',en:'The forest spirit repeats four notes. Replay the pattern: green, blue, gold, violet.'},tokens:[['🟢 أخضر','🔵 أزرق','🟡 ذهبي','🟣 بنفسجي'],['Green','Blue','Gold','Violet']],answer:[0,1,2,3]},
+4:{type:'memory',title:{ar:'مرآة الذكريات',en:'The Memory Mirror'},clue:{ar:'المرآة أخفت ثلاث ذكريات في أزواج. اكشفوا البطاقات واعثروا على كل صورتين متطابقتين.',en:'The mirror hid three memories in pairs. Reveal the cards and find each matching pair.'},tokens:[['🏰 القصر','🌊 البحيرة','✉ الرسالة','✉ الرسالة','🏰 القصر','🌊 البحيرة'],['Castle','Lake','Letter','Letter','Castle','Lake']],pairs:[0,1,2,2,0,1],answer:[0,1,2]},
+5:{type:'choice',title:{ar:'طريق البحيرة',en:'The Lake Crossing'},clue:{ar:'النقش يقول: «ابتعدوا عن الضباب، مرّوا بجانب القمر، ثم اتجهوا إلى المنارة». أي طريق يحقق ذلك؟',en:'The inscription says: “Avoid the mist, pass beside the moon, then head to the lighthouse.” Which route follows the clue?'},tokens:[['🌫 طريق الضباب','🌙 طريق القمر','🗼 طريق المنارة'],['Mist route','Moon route','Lighthouse route']],answer:[1]},
+6:{type:'balance',title:{ar:'نبض البلورات',en:'The Crystal Pulse'},clue:{ar:'اضبطوا البلورات الثلاث حتى تستقر المؤشرات عند القيم التي نقشها البنّاء: ٢٥، ٧٠، ٤٥.',en:'Tune the three crystals until their gauges match the builder’s inscription: 25, 70, 45.'},tokens:[['الأولى','الثانية','الثالثة'],['First','Second','Third']],target:[25,70,45]},
+7:{type:'choice',title:{ar:'ميثاق التحالفات',en:'The Alliance Charter'},clue:{ar:'قبل توقيع الميثاق، يطلب المبعوثون خطوة أولى تثبت أنكم تحترمون أهل المملكة. ماذا تفعلون؟',en:'Before signing the charter, the envoys ask for a first step that proves you respect the people. What do you do?'},tokens:[['👂 الإصغاء','🛤 فتح الطرق','📜 كتابة العهد'],['Listen','Open roads','Write charter']],answer:[0,1,2]},
+8:{title:{ar:'خريطة النجوم',en:'The Star Map'},clue:{ar:'الخريطة تحدد مسارًا بين النجوم: ابدأوا بأبعد نجمة يسارًا، ثم الوسط، ثم أعلى نجمة، ثم اليمين.',en:'The map marks a path: begin with the far-left star, then the center, then the highest star, then the right.'},tokens:[['✦ يسار','✧ وسط','★ أعلى','✧ يمين'],['Left','Center','Top','Right']],answer:[0,1,2,3]},
+9:{title:{ar:'إنقاذ ضوء السماء',en:'Restoring the Sky Lights'},clue:{ar:'الأنوار تتلاشى. أعيدوا تشغيلها من الأضعف إلى الأقوى: بنفسجي، أزرق، ذهبي، أبيض.',en:'The lights are fading. Restore them from weakest to strongest: violet, blue, gold, white.'},tokens:[['🟣 بنفسجي','🔵 أزرق','🟡 ذهبي','⚪ أبيض'],['Violet','Blue','Gold','White']],answer:[0,1,2,3]},
+10:{title:{ar:'العهد الأخير',en:'The Eternal Vow'},clue:{ar:'الباب الأخير لا يسأل عن القوة، بل عن معنى المملكة. رتّبوا المبادئ: الصدق، الثقة، ثم الوعد الذي يجمعهما.',en:'The final door asks not about power, but what a kingdom means. Order the principles: honesty, trust, then the promise that joins them.'},tokens:[['♡ الصدق','✦ الثقة','♛ العهد'],['Honesty','Trust','The vow']],answer:[0,1,2]}
+};
+let storyInput=[],memoryPick=[],memoryFound=[],storyBalanceVals=[50,50,50];
+function completeStory(answer){S.ref.child('progress/'+pre()+'storyDone/'+S.role).set(true);S.ref.child('progress/'+pre()+'storyAnswers/'+S.role).set(answer||[]);S.ref.child('progress/updatedAt').set(SV());closeM();chime(880);toast(L==='ar'?'نجح الاختبار! ننتظر شريكك.':'Trial complete! Waiting for your partner.')}
+function storyUI(msg){
+ const n=cn(),q=STORY[n],done=(C().storyDone||{})[S.role];
+ if(done){modal(`<h3>${q.title[L]}</h3><p>${L==='ar'?'أنهيت اختبارك. ننتظر اللاعب الآخر ليكمل التحدي.':'You completed your trial. Waiting for the other player.'}</p><button class="btn" onclick="closeM()">${t('ok')}</button>`);return}
+ const opts=q.tokens[L==='ar'?0:1];
+ if(q.type==='balance'){
+  const labels=L==='ar'?['البلورة الأولى','البلورة الثانية','البلورة الثالثة']:['Crystal One','Crystal Two','Crystal Three'];
+  const sliders=storyBalanceVals.map((v,i)=>`<label style="display:block;margin:12px 0">${labels[i]}: <b id="balv${i}">${v}</b><input type="range" min="0" max="100" value="${v}" style="width:100%" oninput="storyBalance(${i},this.value)"></label>`).join('');
+  modal(`<h3>${q.title[L]}</h3><p>${q.clue[L]}</p>${sliders}<button class="btn" onclick="storyBalanceSubmit()">${L==='ar'?'تثبيت البلورات':'Lock the crystals'}</button><p class="err">${msg||''}</p>`);return;
+ }
+ if(q.type==='memory'){
+  const cards=opts.map((v,i)=>{const face=memoryFound.includes(q.pairs[i])||memoryPick.includes(i);return `<button class="opt" style="min-height:58px" onclick="memoryTap(${i})">${face?v:'？'}</button>`}).join('');
+  modal(`<h3>${q.title[L]}</h3><p>${q.clue[L]}</p><p class="gold">${L==='ar'?'الأزواج المكتشفة':'Pairs found'}: ${memoryFound.length}/3</p><div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px">${cards}</div><p class="dim">${L==='ar'?'اكشفوا بطاقتين متطابقتين في كل مرة.':'Reveal two matching cards at a time.'}</p>`);return;
+ }
+ if(q.type==='choice'){
+  const buttons=opts.map((v,i)=>`<button class="opt" onclick="storyTap(${i})">${v}</button>`).join('');
+  modal(`<h3>${q.title[L]}</h3><p>${q.clue[L]}</p><div class="col">${buttons}</div><p class="err">${msg||''}</p>`);return;
+ }
+ const picks=storyInput.map(v=>`<span class="ib" style="display:inline-block;margin:3px">${opts[v]}</span>`).join('');
+ const buttons=opts.map((v,i)=>`<button class="opt" onclick="storyTap(${i})">${v}</button>`).join('');
+ modal(`<h3>${q.title[L]}</h3><p>${q.clue[L]}</p><p class="gold">${L==='ar'?'الترتيب الحالي':'Current sequence'}: ${picks||'—'}</p><div class="col">${buttons}</div><p class="err">${msg||''}</p><p class="dim">${L==='ar'?'اضغطوا العناصر بالترتيب الصحيح. يمكن إعادة المحاولة.':'Tap the elements in the correct order. You can retry.'}</p><button class="btn sec" onclick="storyInput=[];storyUI()">${L==='ar'?'إعادة':'Reset'}</button>`);
+}
+function storyBalance(i,v){storyBalanceVals[i]=Number(v);const e=document.getElementById('balv'+i);if(e)e.textContent=v}
+function storyBalanceSubmit(){const q=STORY[cn()];if(storyBalanceVals.every((v,i)=>Math.abs(v-q.target[i])<=5)){completeStory(storyBalanceVals.slice());storyBalanceVals=[50,50,50]}else storyUI(L==='ar'?'المؤشرات لم تستقر بعد. راجعوا القيم المنقوشة.':'The gauges are not stable yet. Check the inscribed values.')}
+function storyTap(v){
+ const q=STORY[cn()];
+ if(q.type==='choice'){
+  if(v!==q.answer[0]){storyUI(L==='ar'?'هذا الاختيار لا يطابق الدليل. حاولوا مرة أخرى.':'That choice does not match the clue. Try again.');return}
+  completeStory([v]);return;
+ }
+ storyInput.push(v);const i=storyInput.length-1;
+ if(v!==q.answer[i]){storyInput=[];storyUI(L==='ar'?'الترتيب غير صحيح. راجعوا الدليل وحاولوا مرة أخرى.':'Not quite. Re-read the clue and try again.');return}
+ if(storyInput.length<q.answer.length){storyUI();return}
+ const answer=storyInput.slice();storyInput=[];completeStory(answer);
+}
+function memoryTap(i){
+ const q=STORY[cn()];if(memoryFound.includes(q.pairs[i])||memoryPick.includes(i))return;
+ memoryPick.push(i);
+ if(memoryPick.length===2){const [a,b]=memoryPick;
+  if(q.pairs[a]===q.pairs[b]){memoryFound.push(q.pairs[a]);memoryPick=[];if(memoryFound.length===3){completeStory(memoryFound);memoryFound=[];return}}
+  else{memoryPick=[];storyUI(L==='ar'?'ليستا متطابقتين. جرّبوا زوجًا آخر.':'Those cards do not match. Try another pair.');return}
+ }
+ storyUI();
+}
+function target(){if(!S.started)return null;const m=mission();
+ if(m===0)return{x:-6,z:5,l:t('letter')};
+ if(m===1)return{x:0,z:-2,l:STORY[cn()].title[L]};
+ if(m===3)return{x:0,z:-26,l:t('altar')};
+ return null}
 /* ============ 7. CHAT ============ */
 function addMsg(m){const d=document.createElement('div'),b=document.createElement('b'),s=document.createElement('small');
 b.style.color=m.r=='king'?'#f0c878':'#5fe6ff';b.textContent=(m.n||'')+': ';s.textContent=' '+new Date(m.t||Date.now()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
@@ -402,12 +486,12 @@ modal(`<h3>${t('set')}</h3><label>${t('lang')}</label><div class="row">${b(L=='a
 <label>${t('ql')}</label><div class="row">${[0,1,2].map(i=>b(QL==i,t(['lo','me','hi'][i]),`localStorage.ql=${i};location.reload()`)).join('')}</div>
 <label>${t('snd')}</label><div class="row">${b(SND,'ON',"SND=true;localStorage.snd=1;settings()")}${b(!SND,'OFF',"SND=false;localStorage.snd=0;settings()")}</div>
 ${C().chapterDone&&cn()<10?`<p><button class="btn" onclick="nextCh()">${t('nx')}</button></p>`:''}<p><button class="btn sec" onclick="journal()">${t('jr')}</button></p><p><button class="btn" onclick="closeM()">${t('res')}</button></p>${OK&&S.uid?`<button class="btn sec" onclick="auth.signOut().then(()=>location.href=location.pathname)">${t('leave')}</button>`:''}`)}
-$('bPause').onclick=settings;
+$('bPause').onclick=settings;$('bEm').onclick=emoMenu;
 
 /* ============ 9. 3D WORLD ============ */
 const P={x:0,y:0,z:10,vy:0,ry:0},AV={me:null,ot:null},W={stars:[],plates:[],pils:[]};
 const keys={};let cy=0,cp=.5,jx=0,jz=0,webgl=true,R,sc,cam;
-const CC=[],CB=[],IT=[],PL={king:[-7,-9],queen:[7,-9]},SPOT=[[-20,-8],[18,-14],[-16,20],[22,12],[-26,4],[13,-25],[-13,-26]];
+const CC=[],CB=[],IT=[],PL={king:[-7,-9],queen:[7,-9]},SPOT=[[-20,-8],[18,-14],[-16,20],[22,12],[-26,4],[13,-25],[-13,-26]],SPOTY=[1.8,9,1.8,1.8,13,1.8,7];
 try{R=new THREE.WebGLRenderer({canvas:$('cv'),antialias:QL>0});}catch(e){webgl=false;$('nogl').classList.add('on')}
 if(webgl){R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=.95;if(QL>0){R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap}}
 const HALO=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.25,'rgba(255,255,255,.35)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c)})();
@@ -420,10 +504,9 @@ function ntex(c1,c2,rx,ry){const c=document.createElement('canvas');c.width=c.he
 for(let i=0;i<5000;i++){g.fillStyle=Math.random()<.5?c2:'#000';g.globalAlpha=Math.random()*.14;const z=1+Math.random()*3;g.fillRect(Math.random()*256,Math.random()*256,z,z)}
 const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return t}
 const hx=c=>'#'+new THREE.Color(c).getHexString();
-function build(n){const s=CH[n];CC.length=CB.length=IT.length=0;W.stars=[];W.plates=[];W.pils=[];W.flags=[];W.torch=[];W.sp=[];W.isles=[];W.jet=null;
+function build(n){const s=CH[n];CC.length=CB.length=IT.length=0;W.stars=[];W.plates=[];W.pils=[];W.flags=[];W.torch=[];W.sp=[];W.isles=[];W.fx=[];W.jet=null;
 if(sc)sc.traverse(o=>{if(o.geometry)o.geometry.dispose()});
-IT.push({k:'letter',x:-6,z:5},{k:'altar',x:0,z:-26});SPOT.slice(0,s.items).forEach((p,i)=>IT.push({k:'star',i,x:p[0],z:p[1]}));
-if(s.mech!='plates')IT.push({k:'pil',r:'king',x:-14,z:-2},{k:'pil',r:'queen',x:14,z:-2},{k:'door',x:0,z:-14.5});
+IT.push({k:'letter',x:-6,z:5},{k:'story',x:0,z:-2},{k:'altar',x:0,z:-26});
 const dpr=devicePixelRatio||1;R.setPixelRatio([1,Math.min(dpr,1.5),Math.min(dpr,2)][QL]);
 let sd=7+n;const rnd=()=>(sd=sd*16807%2147483647)/2147483647;
 const night=!!s.nt,cave=!!s.nm,top=new THREE.Color(s.bg),hor=new THREE.Color(s.hz);
@@ -482,10 +565,11 @@ W.gb={a:-4,b:4,c:-18.4,d:-17.6,on:1};CB.push(W.gb);
 W.gl=bx(3.9,4.4,.4,0xe0b45a,-2,2.2,-18,.25);W.gr=bx(3.9,4.4,.4,0xe0b45a,2,2.2,-18,.25);
 [-4.6,4.6].forEach(x=>{cyl(.08,.1,1.6,0x3a2a1a,x,.8,-16.4);const f=add(new THREE.Mesh(new THREE.SphereGeometry(.22,10,8),new THREE.MeshBasicMaterial({color:0xffc060})),x,1.8,-16.4);f.add(halo(0xffb860,3,.9));if(QL>0){const l=new THREE.PointLight(0xffa94d,.9,10);f.add(l);W.torch.push(l)}});
 cyl(.8,1,1.2,0xc6c2ea,0,.6,-26);W.altar=add(new THREE.Mesh(new THREE.SphereGeometry(.4,16,12),M(0x9fe8ff,.9)),0,1.7,-26);W.altar.add(halo(0x9fe8ff,4.5,.8));
-if(s.mech=='plates')['king','queen'].forEach(r=>{const m=cyl(1.5,1.5,.12,r=='king'?0xffd47a:0x8fd4ff,PL[r][0],.06,PL[r][1],.3,32);m.role=r;W.plates.push(m)});
-else W.pils.push(cyl(.5,.5,3,0xffd47a,-14,1.5,-2,.8,10),cyl(.5,.5,3,0x8fd4ff,14,1.5,-2,.8,10),cyl(1.3,1.3,.1,0xc9a0ff,0,.05,-14.5,.8,32));
+W.story=add(new THREE.Mesh(new THREE.OctahedronGeometry(1.05),M(s.ic,1.2,true)),0,2.1,-2);W.story.add(halo(s.ic,5,.9));W.story.rotation.y=.35;
+/* Old repetitive plates/pillars removed: chapter trials now drive progression. */
 W.letter=add(new THREE.Mesh(new THREE.PlaneGeometry(1.1,.8),new THREE.MeshBasicMaterial({color:0xfff0b8,side:2})),-6,1.8,5);W.letter.add(halo(0xffe08a,3.4,.8));
-IT.filter(i=>i.k=='star').forEach(i=>{const m=add(new THREE.Mesh(new THREE.OctahedronGeometry(.6),M(s.ic,1,true)),i.x,1.8,i.z);m.add(halo(s.ic,4,.9));const rg=new THREE.Mesh(new THREE.TorusGeometry(.9,.03,6,28),new THREE.MeshBasicMaterial({color:s.ic}));rg.rotation.x=1.2;m.add(rg);if(QL>0&&i.i<3)m.add(new THREE.PointLight(s.ic,.8,9));W.stars[i.i]=m});
+/* Chapter-specific story crystal replaces repetitive collectible stars. */
+
 /* glowing ancestor spirits (NPCs) */
 const spirit=(x,z)=>{const g=new THREE.Group(),bm=new THREE.MeshBasicMaterial({color:0x6fb4ff,transparent:true,opacity:.55,depthWrite:false}),wm=new THREE.MeshBasicMaterial({color:0xffffff});
 const body=new THREE.Mesh(new THREE.ConeGeometry(.95,2.3,16),bm);body.position.y=1.15;const head=new THREE.Mesh(new THREE.SphereGeometry(.42,16,12),bm);head.position.y=2.6;
@@ -494,7 +578,7 @@ const lan=new THREE.Mesh(new THREE.SphereGeometry(.15,8,6),new THREE.MeshBasicMa
 const sg=new THREE.BufferGeometry(),sa=new Float32Array(30);for(let i=0;i<10;i++){sa[i*3]=(rnd()-.5)*1.4;sa[i*3+1]=.3+rnd()*2.4;sa[i*3+2]=(rnd()-.5)*1.4}sg.setAttribute('position',new THREE.BufferAttribute(sa,3));
 const sk=new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:3,sizeAttenuation:false,blending:THREE.AdditiveBlending,depthWrite:false}));
 g.add(body,head,e1,e2,lan,sk,halo(0x6fb4ff,7,.35));g.position.set(x,0,z);g.rotation.y=Math.atan2(-x,-2-z);sc.add(g);W.sp.push(sk);CC.push([x,z,1])};
-[[-12,-11],[12,-11],[-17,3],[17,3]].slice(0,[2,3,4][QL]).forEach(p=>spirit(p[0],p[1]));
+[[-12,-11],[12,-11],[-17,3],[17,3]].slice(0,[2,3,4][QL]).forEach((p,i)=>{spirit(p[0],p[1]);IT.push({k:'sp',i,x:p[0],z:p[1]})});
 /* floating islands with waterfalls */
 const isle=(x,y,z,r)=>{const g=new THREE.Group(),tp=new THREE.Mesh(new THREE.CylinderGeometry(r,r*.92,1,28),new THREE.MeshStandardMaterial({color:new THREE.Color(s.gr).offsetHSL(0,0,.05),roughness:1})),
 rk=new THREE.Mesh(new THREE.ConeGeometry(r*.95,r*1.5,28),new THREE.MeshStandardMaterial({color:0x6a7896,roughness:1})),fa=new THREE.Mesh(new THREE.PlaneGeometry(r*.2,r*1.8),new THREE.MeshBasicMaterial({map:BEAM,color:0xcfeaff,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false,side:2}));
@@ -533,67 +617,146 @@ function label(txt){const c=document.createElement('canvas');c.width=256;c.heigh
 const s=new THREE.Sprite(new THREE.SpriteMaterial({map:Object.assign(new THREE.CanvasTexture(c),{encoding:THREE.sRGBEncoding}),depthTest:false}));s.scale.set(2.6,.65,1);s.position.y=2.6;return s}
 function capeTex(c1,c2){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),q=g.createLinearGradient(0,0,0,128);q.addColorStop(0,c1);q.addColorStop(1,c2);g.fillStyle=q;g.fillRect(0,0,128,128);
 g.globalCompositeOperation='destination-out';for(let i=0;i<6;i++){g.beginPath();g.moveTo(i*22,129);g.lineTo(i*22+11,102);g.lineTo(i*22+22,129);g.fill()}const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;return t}
-function setAv(w,role,p){if(!webgl||!sc)return;const key=[p.name,p.out,p.hair].join('|');if(AV[w]&&AV[w].key==key&&AV[w].parent==sc)return;
-if(AV[w])sc.remove(AV[w]);const K=role=='king',g=new THREE.Group(),oc=new THREE.Color(p.out||'#7b4bd6'),
-Mt=(c,e)=>new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:e||0,roughness:.7}),skin=Mt('#f3cfae',.05),tun=Mt(hx(oc),.12),hair=Mt(p.hair||'#2b1b12'),gold=Mt(0xffe08a,.8),dk=Mt('#3a2f4a'),eye=new THREE.MeshBasicMaterial({color:0x2a1a2a});
-const part=(geo,m,x,y,z,par)=>{const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);(par||g).add(o);o.castShadow=QL>0;return o},
-pv=(x,y)=>{const o=new THREE.Group();o.position.set(x,y,0);g.add(o);return o},limb=(par,r,h,m)=>part(new THREE.CylinderGeometry(r,r*.85,h,10),m,0,-h/2,0,par);
-g.tor=part(new THREE.SphereGeometry(.36,20,14),tun,0,.98,0);g.tor.scale.set(.9,1.15,.8);
-part(new THREE.OctahedronGeometry(.07),gold,0,1.2,.3);const sh=halo(0xffe08a,1.1,.7);sh.position.set(0,1.2,.33);g.add(sh);
-part(new THREE.SphereGeometry(.34,20,16),skin,0,1.8,0);part(new THREE.SphereGeometry(.04,8,6),eye,-.12,1.8,.32);part(new THREE.SphereGeometry(.04,8,6),eye,.12,1.8,.32);
-part(new THREE.SphereGeometry(.37,20,14,0,6.3,0,1.75),hair,0,1.86,-.02);
-g.legs=[pv(-.13,.62),pv(.13,.62)];g.legs.forEach(l=>{limb(l,.09,.56,dk);part(new THREE.SphereGeometry(.11,10,8),dk,0,-.58,.03,l)});
-g.arms=[pv(-.37,1.22),pv(.37,1.22)];g.arms.forEach(a=>{limb(a,.07,.52,tun);part(new THREE.SphereGeometry(.08,10,8),skin,0,-.55,0,a)});
-if(K){const cr=part(new THREE.TorusGeometry(.27,.035,8,20),gold,0,2.13,0);cr.rotation.x=1.5;for(let i=0;i<5;i++){const a=i/5*6.283;part(new THREE.ConeGeometry(.045,.16,5),gold,Math.cos(a)*.27,2.22,Math.sin(a)*.27)}}
-else{const sk=Mt(hx(oc),.1);sk.side=2;part(new THREE.CylinderGeometry(.25,.58,.75,20,1,true),sk,0,.6,0);part(new THREE.SphereGeometry(.17,12,10),hair,0,2.26,-.04);[-.3,.3].forEach(x=>part(new THREE.CylinderGeometry(.06,.04,.6,8),hair,x,1.55,-.05));
-const tr=part(new THREE.TorusGeometry(.25,.03,8,20),gold,0,2.12,0);tr.rotation.x=1.5;part(new THREE.SphereGeometry(.05,8,6),Mt(0x9fe8ff,1),0,2.17,.25)}
-g.capeP=pv(0,1.42);g.capeP.position.z=-.22;const cg=new THREE.PlaneGeometry(.9,1.1,6,8);g.cb=Float32Array.from(cg.attributes.position.array);
-g.cape=part(cg,new THREE.MeshStandardMaterial({map:capeTex(hx(oc.clone().offsetHSL(0,.1,-.06)),hx(oc.clone().offsetHSL(0,0,.4))),side:2,alphaTest:.5,roughness:.8,emissive:0x222222}),0,-.55,0,g.capeP);
-const lb=label(p.name||'');lb.position.y=2.75;g.add(lb);g.key=key;AV[w]=g;sc.add(g)}
-function animAv(g,spd,t){if(!g||!g.legs)return;const sw=Math.sin(t*10)*.7*spd;g.legs[0].rotation.x=sw;g.legs[1].rotation.x=-sw;g.arms[0].rotation.x=-sw*.8;g.arms[1].rotation.x=sw*.8;g.tor.scale.y=1.15+Math.sin(t*2)*.015*(1-spd);
+function setAv(w,role,p){
+if(!webgl||!sc)return;
+const K=role==='king',key=[p.name,p.out,p.hair,role].join('|');
+if(AV[w]&&AV[w].key===key&&AV[w].parent===sc)return;
+if(AV[w])sc.remove(AV[w]);
+const g=new THREE.Group(),oc=new THREE.Color(p.out||'#7b4bd6');
+const mat=(c,rough=.72,metal=0,em=0)=>new THREE.MeshStandardMaterial({color:c,roughness:rough,metalness:metal,emissive:c,emissiveIntensity:em});
+const skin=mat('#e9bd9d',.86),skinShade=mat('#bd8875',.9),cloth=mat(hx(oc),.76),dark=mat(hx(oc.clone().multiplyScalar(.58)),.82),hair=mat(p.hair||'#2b1b12',.9),gold=mat('#e0b75d',.3,.72,.16),gem=mat(K?'#67d5ef':'#e58ac0',.22,.35,.55),white=mat('#fff8ec',.35),iris=mat('#51405a',.35),black=mat('#241b27',.8);
+const part=(geo,m,x,y,z,par)=>{const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);(par||g).add(o);o.castShadow=QL>0;o.receiveShadow=QL>0;return o};
+const ball=(m,x,y,z,sx,sy,sz,par)=>{const o=part(new THREE.SphereGeometry(1,20,14),m,x,y,z,par);o.scale.set(sx,sy,sz);return o};
+const pivot=(x,y,z=0)=>{const o=new THREE.Group();o.position.set(x,y,z);g.add(o);return o};
+const limb=(par,r,h,m)=>part(new THREE.CylinderGeometry(r*.84,r,h,12),m,0,-h/2,0,par);
+
+// silhouette and torso
+ g.tor=part(new THREE.SphereGeometry(.35,24,18),cloth,0,1.12,0);g.tor.scale.set(.92,1.15,.78);
+part(new THREE.CylinderGeometry(.105,.12,.2,16),skin,0,1.55,0);
+ball(cloth,-.34,1.42,0,.2,.19,.2);ball(cloth,.34,1.42,0,.2,.19,.2);
+
+// head, ears, face
+ball(skin,0,1.91,0,.285,.355,.255);
+ball(skin,-.282,1.91,0,.058,.09,.065);ball(skin,.282,1.91,0,.058,.09,.065);
+[-.112,.112].forEach(x=>{
+ ball(white,x,1.965,.226,.047,.057,.022);ball(iris,x,1.965,.247,.024,.036,.012);ball(black,x,1.965,.257,.011,.023,.008);
+ const brow=part(new THREE.BoxGeometry(.09,.018,.018),hair,x,2.045,.226);brow.rotation.z=x<0?-.1:.1;
+});
+ball(skinShade,0,1.86,.253,.027,.055,.025);
+part(new THREE.BoxGeometry(.075,.012,.012),skinShade,0,1.765,.245);
+
+// hairstyle: distinct silhouettes for king and queen
+if(K){
+ ball(hair,0,2.15,-.025,.3,.17,.27);ball(hair,0,2.22,.015,.22,.105,.22);
+ [-1,1].forEach(d=>{const lock=ball(hair,d*.235,2.015,.015,.075,.19,.105);lock.rotation.z=-d*.12});
+}else{
+ ball(hair,0,2.16,-.055,.31,.19,.28);ball(hair,0,2.015,-.17,.27,.29,.14);
+ [-1,1].forEach(d=>{const lock=ball(hair,d*.25,1.77,-.04,.078,.42,.11);lock.rotation.z=-d*.12});
+ ball(hair,0,2.265,-.015,.22,.075,.22);
+}
+
+// royal clothing
+if(K){
+ part(new THREE.CylinderGeometry(.3,.46,.8,24,1,true),dark,0,.66,0);
+ part(new THREE.CylinderGeometry(.32,.37,.09,24),gold,0,1.48,0);
+ part(new THREE.CylinderGeometry(.34,.34,.065,24),gold,0,.91,0);
+ ball(gem,0,.91,.34,.065,.065,.025);
+ [-.14,.14].forEach(x=>{part(new THREE.CylinderGeometry(.105,.12,.52,14),dark,x,.34,0);part(new THREE.BoxGeometry(.19,.11,.3),black,x,.075,.075)});
+ [-1,1].forEach(d=>{const pa=ball(gold,d*.37,1.48,0,.17,.12,.18);pa.rotation.z=d*.18});
+ // short royal mantle
+}else{
+ part(new THREE.CylinderGeometry(.25,.64,.91,28,1,true),cloth,0,.65,0);
+ part(new THREE.CylinderGeometry(.64,.68,.075,28),gold,0,.19,0);
+ const panel=part(new THREE.ConeGeometry(.29,.72,4),dark,0,.66,.235);panel.scale.set(.9,1,.28);
+ part(new THREE.TorusGeometry(.145,.022,8,24),gold,0,1.36,.255);ball(gem,0,1.36,.285,.06,.075,.03);
+ [-1,1].forEach(d=>{const sleeve=part(new THREE.CylinderGeometry(.085,.12,.38,14),dark,d*.42,1.17,0);sleeve.rotation.z=d*.2;part(new THREE.BoxGeometry(.16,.1,.23),black,d*.13,.075,.08)});
+}
+
+// articulated arms and hands
+ g.arms=[pivot(-.37,1.36,0),pivot(.37,1.36,0)];
+ g.arms.forEach((a,i)=>{const d=i===0?-1:1;const upper=limb(a,.095,.38,cloth);upper.rotation.z=d*.08;ball(skin,0,-.405,.025,.085,.09,.085,a);part(new THREE.TorusGeometry(.09,.014,6,16),gold,0,-.34,0,a)});
+
+// legs retain the animation pivots used by animAv
+ g.legs=[pivot(-.14,.57,0),pivot(.14,.57,0)];
+ g.legs.forEach(l=>{limb(l,.105,.49,dark);part(new THREE.BoxGeometry(.19,.11,.29),black,0,-.49,.075,l)});
+
+// crowns
+if(K){
+ part(new THREE.CylinderGeometry(.215,.24,.065,24),gold,0,2.30,0);
+ for(let i=0;i<7;i++){const a=i/7*Math.PI*2,x=Math.cos(a)*.205,z=Math.sin(a)*.205;const spike=part(new THREE.ConeGeometry(.045,.17,6),gold,x,2.405,z);spike.rotation.z=-Math.cos(a)*.28;spike.rotation.x=Math.sin(a)*.28}
+ ball(gem,0,2.34,.22,.06,.065,.03);
+}else{
+ const tiara=part(new THREE.TorusGeometry(.215,.027,8,28),gold,0,2.32,0);tiara.rotation.x=Math.PI/2;
+ for(let i=0;i<5;i++){const x=(i-2)*.085,h=.12+(2-Math.abs(i-2))*.045;part(new THREE.ConeGeometry(.035,h,6),gold,x,2.38+h*.35,.015)}
+ ball(gem,0,2.46,.205,.06,.075,.03);
+}
+
+// animated cape: geometry layout remains compatible with animAv
+ g.capeP=pivot(0,1.42,-.22);
+ const cg=new THREE.PlaneGeometry(K?1.02:1.08,1.18,7,9);g.cb=Float32Array.from(cg.attributes.position.array);
+ const capeMat=new THREE.MeshStandardMaterial({color:oc.clone().multiplyScalar(.66),side:THREE.DoubleSide,roughness:.88,metalness:.08,emissive:oc.clone().multiplyScalar(.08)});
+ g.cape=part(cg,capeMat,0,-.59,0,g.capeP);
+ [-.49,.49].forEach(x=>{const edge=part(new THREE.BoxGeometry(.018,1.12,.018),gold,x,-.59,.012,g.capeP);edge.rotation.z=x*.1});
+ const crest=part(new THREE.TorusGeometry(.075,.014,6,20),gold,0,1.14,.32);crest.rotation.z=0;
+ ball(gem,0,1.14,.33,.035,.045,.02);
+ const lb=label(p.name||'');lb.position.y=2.78;g.add(lb);
+ g.key=key;AV[w]=g;sc.add(g);
+}
+function animAv(g,spd,t){if(!g||!g.legs)return;const sw=Math.sin(t*10)*.7*spd;g.legs[0].rotation.x=sw;g.legs[1].rotation.x=-sw;g.arms[0].rotation.x=-sw*.8;g.arms[1].rotation.x=sw*.8;g.tor.scale.y=1.15+Math.sin(t*2)*.015*(1-spd);g.arms[0].rotation.z=g.arms[1].rotation.z=0;const em=g.em&&performance.now()-g.em.t0<3500?g.em.k:null;
+if(g.air){g.arms[0].rotation.z=-1.3;g.arms[1].rotation.z=1.3;g.legs[0].rotation.x=g.legs[1].rotation.x=.5}
+if(em=='wave'){g.arms[1].rotation.z=2.7+Math.sin(t*9)*.35;g.arms[1].rotation.x=0}else if(em=='sit'){g.legs[0].rotation.x=g.legs[1].rotation.x=-1.5}else if(em=='hug'){g.arms[0].rotation.x=g.arms[1].rotation.x=-1.5}
+
 const pa=g.cape.geometry.attributes.position,cb=g.cb;for(let i=0;i<pa.count;i++){const by=cb[i*3+1],u=Math.min(1,Math.max(0,(.55-by)/1.1));pa.setXYZ(i,cb[i*3]*(1+u*.35),by,-u*(.16+spd*.38)+Math.sin(by*6+t*5)*.05*u*(1+spd))}pa.needsUpdate=true}
-function ambient(tm){if(!W.sky)return;W.sky.position.copy(cam.position);W.sky.rotation.y=tm*.004;W.flags.forEach((f,i)=>f.rotation.y=Math.sin(tm*2+i)*.35);W.torch.forEach((l,i)=>l.intensity=.8+Math.sin(tm*13+i*2)*.15+Math.random()*.1);
+function ambient(tm){if(!W.sky)return;W.sky.position.copy(cam.position);if(W.story)W.story.rotation.y=tm*.55;if(W.fx)W.fx=W.fx.filter(r=>{const a=(performance.now()-r.t0)/1500;if(a>1){sc.remove(r.m);return false}r.m.scale.setScalar(1+a*14);r.m.material.opacity=1-a;return true});W.sky.rotation.y=tm*.004;W.flags.forEach((f,i)=>f.rotation.y=Math.sin(tm*2+i)*.35);W.torch.forEach((l,i)=>l.intensity=.8+Math.sin(tm*13+i*2)*.15+Math.random()*.1);
 W.sp.forEach((p,i)=>p.rotation.y=tm*.3+i);W.isles.forEach((g,i)=>g.position.y=g.userData.y0+Math.sin(tm*.5+i*2)*.8);
 if(W.jet){const a=W.jet.geometry.attributes.position,n=W.jn;for(let i=0;i<n;i++){const ph=(tm*.12+i/n)%1,ang=i*2.4+tm*.3,rr=1.1+ph*1.6;a.setXYZ(i,Math.cos(ang)*rr,.9+ph*14,-2+Math.sin(ang)*rr)}a.needsUpdate=true}
 W.water.rotation.y=tm;W.water.material.emissiveIntensity=.7+Math.sin(tm*2)*.2}
-function applyWorld(){if(!webgl||!sc||!W.letter)return;const c=C(),got=resolve(ids(cn())[0])!=null,all=cnt()==NI();
-W.letter.visible=!got;W.stars.forEach((m,i)=>m.visible=got&&!(c.stars&&c.stars[i]));
-W.plates.forEach(m=>{m.visible=all;m.material.emissiveIntensity=c.plates&&c.plates[m.role]?1.2:.3});
-W.pils.forEach(m=>m.visible=all&&!c.gate);W.gb.on=c.gate?0:1;W.altar.material.emissiveIntensity=c.gate?1.6:.9}
-function avail(it){const c=C(),[ia,ib]=ids(cn()),got=resolve(ia)!=null,all=cnt()==NI(),rid=SP().mech!='plates';
-switch(it.k){case 'letter':return !got;case 'star':return got&&!(c.stars&&c.stars[it.i]);case 'altar':return !!c.gate&&resolve(ib)==null;
-case 'pil':return it.r==S.role&&rid&&all&&!c.gate;case 'door':return rid&&all&&!c.gate}return false}
-function act(){if(!near||D)return;const k=near.k,n=cn();
-if(k=='star'){const cc=n==1?S.prog:(S.prog['ch'+n]=S.prog['ch'+n]||{});(cc.stars=cc.stars||{})[near.i]=S.role;
-S.ref.child('progress').update({[pre()+'stars/'+near.i]:S.role,['inventory/'+(n==1?'star'+(near.i+1):'c'+n+'s'+(near.i+1))]:true,updatedAt:SV()});
-chime(660+near.i*110);toast(SP().vals?SP().vals[L][near.i]:(n==1?'':SP().inm[L]+' ')+cnt()+'/'+NI());onProg()}
-else if(k=='pil')hint();else if(k=='door'){EN=[];doorUI()}else openD(ids(n)[k=='letter'?0:1])}
-$('act').onclick=act;
-addEventListener('keydown',e=>{if(/INPUT/.test(document.activeElement.tagName))return;keys[e.code]=1;if(e.code=='KeyE')act();if(e.code=='Space'&&P.y==0)P.vy=7});addEventListener('keyup',e=>keys[e.code]=0);
+function applyWorld(){if(!webgl||!sc||!W.letter)return;const m=mission();
+ W.letter.visible=m===0;if(W.story)W.story.visible=m===1;
+ if(W.gb)W.gb.on=m!==3;if(W.gl)W.gl.visible=m!==3;if(W.gr)W.gr.visible=m!==3;
+ if(W.altar)W.altar.material.emissiveIntensity=m===3?1.8:.25;
+ if(W.story)W.story.rotation.y+=.002;
+}
+function avail(it){const m=mission();
+ if(it.k==='letter')return m===0;
+ if(it.k==='story')return m===1&&!(C().storyDone||{})[S.role];
+ if(it.k==='altar')return m===3;
+ if(it.k==='sp')return true;
+ return false;
+}
+function act(){if(!near||D)return;const k=near.k;
+ if(k==='sp')talk(near.i);
+ else if(k==='story'){storyInput=[];storyUI()}
+ else if(k==='altar')openD(ids(cn())[1]);
+ else if(k==='letter')openD(ids(cn())[0]);
+}
+$('act').onclick=act;$('fly').onpointerdown=e=>{e.preventDefault();flap();FLY=true};$('fly').onpointerup=$('fly').onpointercancel=()=>FLY=false;
+addEventListener('keydown',e=>{if(/INPUT/.test(document.activeElement.tagName))return;keys[e.code]=1;if(e.code=='KeyE')act();if(e.code=='Space'&&!e.repeat)flap()});addEventListener('keyup',e=>keys[e.code]=0);
 let dr=0;$('cv').onpointerdown=e=>{dr=e.pointerType=='mouse'};addEventListener('pointerup',()=>dr=0);addEventListener('pointermove',e=>{if(dr&&S.started&&e.target.id=='cv'){cy-=e.movementX*.006;cp=Math.max(.15,Math.min(1.1,cp+e.movementY*.005))}});
 let lx,ly;$('cv').addEventListener('touchstart',e=>{lx=e.touches[0].clientX;ly=e.touches[0].clientY});$('cv').addEventListener('touchmove',e=>{const t0=e.touches[0];cy-=(t0.clientX-lx)*.007;cp=Math.max(.15,Math.min(1.1,cp+(t0.clientY-ly)*.005));lx=t0.clientX;ly=t0.clientY},{passive:true});
 const joy=$('joy');function jmove(e){const r=joy.getBoundingClientRect(),dx=e.clientX-r.left-60,dy=e.clientY-r.top-60,m=Math.min(1,Math.hypot(dx,dy)/50),a=Math.atan2(dy,dx);jx=Math.cos(a)*m;jz=Math.sin(a)*m;$('knob').style.transform=`translate(${jx*40}px,${jz*40}px)`}
 joy.onpointerdown=e=>{joy.setPointerCapture(e.pointerId);jmove(e)};joy.onpointermove=e=>{if(e.buttons||e.pointerType=='touch')jmove(e)};joy.onpointerup=joy.onpointercancel=()=>{jx=jz=0;$('knob').style.transform=''};
-let lastSend=0,onPl=false,last=0;
+let lastSend=0,onPl=false,last=0,lastFlap=0,FLY=false;function flap(){if(P.y==0)P.vy=7.5;else if(P.vy<2.5&&performance.now()-lastFlap>260){lastFlap=performance.now();P.vy=7}}
 function step(dt){let ix=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0)+jx,iz=(keys.KeyS||keys.ArrowDown?1:0)-(keys.KeyW||keys.ArrowUp?1:0)+jz;
 const m=Math.hypot(ix,iz);if(D||modalOpenNow())ix=iz=0;let moved=false;
-if(m>.1){const n=Math.min(1,m)/m,dx=(ix*Math.cos(cy)+iz*Math.sin(cy))*n,dz=(-ix*Math.sin(cy)+iz*Math.cos(cy))*n,ox=P.x,oz=P.z;P.x+=dx*6*dt;P.z+=dz*6*dt;
+if(m>.1){const n=Math.min(1,m)/m,dx=(ix*Math.cos(cy)+iz*Math.sin(cy))*n,dz=(-ix*Math.sin(cy)+iz*Math.cos(cy))*n,ox=P.x,oz=P.z;const sp2=P.y>.5?9:6;P.x+=dx*sp2*dt;P.z+=dz*sp2*dt;
 P.x=Math.max(-33,Math.min(33,P.x));P.z=Math.max(-30,Math.min(29,P.z));
 CC.forEach(c=>{const ex=P.x-c[0],ez=P.z-c[1],d=Math.hypot(ex,ez),r=c[2]+.4;if(d<r&&d>0){P.x=c[0]+ex/d*r;P.z=c[1]+ez/d*r}});
 CB.forEach(b=>{if(!b.on)return;const qx=Math.max(b.a,Math.min(P.x,b.b)),qz=Math.max(b.c,Math.min(P.z,b.d)),ex=P.x-qx,ez=P.z-qz,d=Math.hypot(ex,ez);if(d<.45){if(d>0){P.x=qx+ex/d*.45;P.z=qz+ez/d*.45}else{P.x=ox;P.z=oz}}});
 let da=Math.atan2(dx,dz)-P.ry;da=Math.atan2(Math.sin(da),Math.cos(da));P.ry+=da*Math.min(1,dt*12);moved=true}
-P.vy-=20*dt;P.y=Math.max(0,P.y+P.vy*dt);if(P.y==0)P.vy=0;
-const a=AV.me;if(a){a.position.set(P.x,P.y+(moved?Math.abs(Math.sin(performance.now()/110))*.12:0),P.z);a.rotation.y=P.ry;animAv(a,moved?1:0,performance.now()/1000)}
-if(S.started&&performance.now()-lastSend>110&&(moved||lastSend==0)){lastSend=performance.now();S.ref.child('pos/'+S.role).set({x:+P.x.toFixed(2),z:+P.z.toFixed(2),r:+P.ry.toFixed(2),t:SV()})}
-const o=AV.ot,op=S.pos[other()];if(o&&op){const ddx=op.x-o.position.x,ddz=op.z-o.position.z,kk=Math.min(1,dt*10);o.position.x+=ddx*kk;o.position.z+=ddz*kk;o.rotation.y=op.r||0;animAv(o,Math.min(1,Math.hypot(ddx,ddz)*kk/dt/4),performance.now()/1000)}
-near=null;let best=3.4;IT.forEach(it=>{if(!avail(it))return;const d=Math.hypot(P.x-it.x,P.z-it.z);if(d<best){best=d;near=it}});
-const ab=$('act');ab.style.display=near&&!D?'flex':'none';if(near)ab.textContent=t({letter:'read',star:'take',altar:'altar',pil:'pil',door:'door'}[near.k]);
-if(S.started&&SP().mech=='plates'&&cnt()==NI()&&!C().gate){const pp=PL[S.role],on=Math.hypot(P.x-pp[0],P.z-pp[1])<1.7;if(on!=onPl){onPl=on;S.ref.child('progress/'+pre()+'plates/'+S.role).set(on)}}
+const g2=(keys.Space||FLY)&&P.y>0&&P.vy<0?4:20;P.vy-=g2*dt;if(g2==4)P.vy=Math.max(P.vy,-2.2);P.y=Math.min(32,Math.max(0,P.y+P.vy*dt));if(P.y==0)P.vy=0;
+const a=AV.me;if(a){a.position.set(P.x,P.y+(moved?Math.abs(Math.sin(performance.now()/110))*.12:0),P.z);a.rotation.y=P.ry;a.air=P.y>.3;if(moved&&a.em&&a.em.k=='sit')a.em=null;animAv(a,moved?1:0,performance.now()/1000)}
+if(S.started&&performance.now()-lastSend>110&&(moved||lastSend==0)){lastSend=performance.now();S.ref.child('pos/'+S.role).set({x:+P.x.toFixed(2),y:+P.y.toFixed(2),z:+P.z.toFixed(2),r:+P.ry.toFixed(2),t:SV()})}
+const o=AV.ot,op=S.pos[other()];if(o&&op){const ddx=op.x-o.position.x,ddz=op.z-o.position.z,kk=Math.min(1,dt*10);o.position.x+=ddx*kk;o.position.z+=ddz*kk;o.rotation.y=op.r||0;o.position.y+=((op.y||0)-o.position.y)*kk;o.air=(op.y||0)>.3;animAv(o,Math.min(1,Math.hypot(ddx,ddz)*kk/dt/4),performance.now()/1000)}
+near=null;let best=3.4;IT.forEach(it=>{if(!avail(it))return;const d=Math.hypot(P.x-it.x,P.z-it.z,(P.y+1.2)-(it.y||1.8));if(d<best){best=d;near=it}});
+const ab=$('act');ab.style.display=near&&!D?'flex':'none';if(near)ab.textContent=t({letter:'read',story:'trial',star:'take',altar:'altar',pil:'pil',door:'door',sp:'talk'}[near.k]);
+const tg=target(),wp=$('wp');if(tg&&!D&&!modalOpenNow()){const dx=tg.x-P.x,dz=tg.z-P.z,xs=dx*Math.cos(cy)-dz*Math.sin(cy),ys=-dx*Math.sin(cy)-dz*Math.cos(cy);$('wpa').style.transform=`rotate(${Math.atan2(xs,ys)}rad)`;$('wpd').textContent=Math.round(Math.hypot(dx,dz))+' m · '+(tg.l||'');wp.style.display='block'}else wp.style.display='none';
+
 CT.set(P.x+Math.sin(cy)*Math.cos(cp)*9,P.y+1.6+Math.sin(cp)*9,P.z+Math.cos(cy)*Math.cos(cp)*9);cam.position.lerp(CT,1-Math.exp(-dt*12));cam.lookAt(P.x,P.y+1.5,P.z);if(W.dl){W.dl.position.set(P.x-25,45,P.z-15);W.dl.target.position.set(P.x,0,P.z)}}
 const modalOpenNow=()=>$('md').classList.contains('on');
 function loop(ts){requestAnimationFrame(loop);const dt=Math.min((ts-last)/1000,.05);last=ts;
 if(S.started&&$('game').classList.contains('on'))step(dt);else{const a=ts*.00008;cam.position.set(Math.sin(a)*38,10+Math.sin(a*3)*2,-25+Math.cos(a)*38);cam.lookAt(0,7,-35)}
-const tm=ts*.001;W.stars.forEach((s,i)=>{s.rotation.y=tm*1.5;s.position.y=1.8+Math.sin(tm*2+i)*.25});W.letter.position.y=1.8+Math.sin(tm*2)*.15;W.letter.lookAt(cam.position);
+const tm=ts*.001;W.stars.forEach((s,i)=>{s.rotation.y=tm*1.5;s.position.y=(SPOTY[i]||1.8)+Math.sin(tm*2+i)*.25});W.letter.position.y=1.8+Math.sin(tm*2)*.15;W.letter.lookAt(cam.position);
 const g=C().gate?1:0;W.gl.position.x+=((g?-5.6:-2)-W.gl.position.x)*.06;W.gr.position.x+=((g?5.6:2)-W.gr.position.x)*.06;
 W.ff.rotation.y=tm*.05;ambient(tm);R.render(sc,cam)}
 /* ============ 10. BOOT ============ */
